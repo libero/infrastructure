@@ -34,3 +34,7 @@ gpg --import myname.gpg
 git-crypt add-gpg-user myname@example.com  # creates a new commit
 git push
 ```
+
+## Removing a user
+
+You can remove a user's key from `.git-crypt/keys/default/0/` but this will not prevent them from using their own copy to continue decrypting. What is needed is to [reinitialize `git-crypt` and re-add all the other keys](https://gist.github.com/developerinlondon/6a853fe175178d4aacb0aa55a4cb09a1). Secrets up to the point of change will still be available to that user, this is no different than for a private repository.
