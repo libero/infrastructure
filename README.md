@@ -11,12 +11,6 @@ Assuming someone has added your GPG public key to the repository:
 git-crypt unlock
 ```
 
-Assuming someone has provided you with a public key:
-
-```
-git-crypt unlock /path/to/public.key
-```
-
 ## Adding a new user's public key
 
 Generate a public key if not having one already:
