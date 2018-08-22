@@ -5,5 +5,9 @@ provider "aws" {
 }
 
 terraform {
-  backend "s3" {}
+  backend "s3" {
+    bucket = "libero-terraform"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
 }

@@ -19,9 +19,11 @@ variable "account_id" {
 }
 
 variable "aws_access_key" {
+  # set using command time e.g. terraform apply -var 'access_key=foo'
   default = "YOUR_ADMIN_ACCESS_KEY"
 }
 
 variable "aws_secret_key" {
+  # set using command time e.g. terraform apply -var 'access_key=foo'
   default = "YOUR_ADMIN_SECRET_KEY"
 }
