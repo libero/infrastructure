@@ -14,7 +14,7 @@ variable "org" {
 }
 
 variable "account_id" {
-  default = "546066078203"
+  default = "540790251273"
   description = "AWS account ID."
 }
 
