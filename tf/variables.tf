@@ -9,7 +9,7 @@ variable "env" {
 }
 
 variable "org" {
-  default = "Libero"
+  default = "libero"
   description = "Organisation. Useful for S3 bucket naming."
 }
 

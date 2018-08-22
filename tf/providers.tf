@@ -7,7 +7,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "libero-terraform"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
+    key    = "${var.env}/terraform.tfstate"
+    region = "${var.region}"
   }
 }
