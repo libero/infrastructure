@@ -27,3 +27,14 @@ variable "aws_secret_key" {
   # set using command time e.g. terraform apply -var 'access_key=foo'
   default = "YOUR_ADMIN_SECRET_KEY"
 }
+
+variable "vpc_cidr" {
+  default = "172.31.0.0/16"
+  description = "CIDR to use for VPC"
+}
+
+variable "subnet" {
+  default = "172.31.0.0/20"
+  description = "Main subnet"
+}
+
