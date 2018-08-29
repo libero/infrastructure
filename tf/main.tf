@@ -59,8 +59,3 @@ resource "aws_security_group" "vpc" {
     Name = "vpc_sg"
   }
 }
-
-resource "aws_eip" "publicIP" {
-  instance = "${aws_instance.unstable}"
-  vpc = true
-}
