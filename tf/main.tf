@@ -1,4 +1,4 @@
-resource "aws_instance" "single_node__${var.env}" {
+resource "aws_instance" "single_node" {
   # This is the latest minimal version of Amazon Linux coupled with ECS container agent, Docker and ecs-init scripts
   # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
   ami             = "ami-00129b193dc81bc31"
@@ -9,6 +9,14 @@ resource "aws_instance" "single_node__${var.env}" {
   tags {
     Name = "single-node--${var.env}"
   }
+}
+
+output "single_node_ip" {
+  value = "${aws_instance.single_node.public_ip}"
+}
+
+output "single_node_key_name" {
+  value = "${aws_instance.single_node.key_name}"
 }
 
 resource "aws_security_group" "vpc" {
