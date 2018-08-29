@@ -23,6 +23,9 @@ output "single_node_key_name" {
 
 resource "aws_security_group" "single_node" {
   name = "single_node_ssh_http"
+  lifecycle {
+    create_before_destroy = true
+  }
   ingress {
     from_port = 80
     to_port = 80
