@@ -5,7 +5,7 @@ variable "region" {
 
 variable "env" {
   default = "unstable"
-  description = "Environment: dev, prod, end2end"
+  description = "Environment: unstable, stable, ..."
 }
 
 variable "org" {

@@ -1,4 +1,4 @@
-resource "aws_instance" "unstable" {
+resource "aws_instance" "single_node__${var.env}" {
   # This is the latest minimal version of Amazon Linux coupled with ECS container agent, Docker and ecs-init scripts
   # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
   ami             = "ami-00129b193dc81bc31"
@@ -7,7 +7,7 @@ resource "aws_instance" "unstable" {
   associate_public_ip_address = true
 
   tags {
-    Name = "single-node--unstable"
+    Name = "single-node--${var.env}"
   }
 }
 
@@ -44,6 +44,6 @@ resource "aws_security_group" "vpc" {
   vpc_id = "${var.vpc_id}"
 
   tags {
-    Name = "single-node--unstable--security-group"
+    Name = "single-node--${var.env}--security-group"
   }
 }
