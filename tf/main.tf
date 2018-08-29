@@ -4,6 +4,7 @@ resource "aws_instance" "single_node" {
   ami             = "ami-00129b193dc81bc31"
   instance_type   = "t2.micro"
   subnet_id = "${var.subnet_id}"
+  vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
 
   tags {
@@ -19,7 +20,7 @@ output "single_node_key_name" {
   value = "${aws_instance.single_node.key_name}"
 }
 
-resource "aws_security_group" "vpc" {
+resource "aws_security_group" "single_node" {
   name = "vpc_sc"
   ingress {
     from_port = 80
