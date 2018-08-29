@@ -6,6 +6,7 @@ resource "aws_instance" "single_node" {
   subnet_id = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
+  key_name = "${aws_key_pair.single_node.key_name}"
 
   tags {
     Name = "single-node--${var.env}"
@@ -21,7 +22,7 @@ output "single_node_key_name" {
 }
 
 resource "aws_security_group" "single_node" {
-  name = "vpc_sc"
+  name = "single_node_ssh_http"
   ingress {
     from_port = 80
     to_port = 80
@@ -55,4 +56,13 @@ resource "aws_security_group" "single_node" {
   tags {
     Name = "single-node--${var.env}--security-group"
   }
+}
+
+resource "aws_key_pair" "single_node" {
+  key_name   = "single-node--${var.env}"
+  public_key = "${data.local_file.public_key.content}"
+}
+
+data "local_file" "public_key" {
+  filename = "single-node--${var.env}.key.pub"
 }
