@@ -33,8 +33,8 @@ variable "vpc_cidr" {
   description = "CIDR to use for VPC"
 }
 
-variable "subnet" {
-  default = "172.31.0.0/20"
-  description = "Main subnet"
+variable "subnet_id" {
+  default = "subnet-cec2bec1"
+  description = "Default for us-east-1f on Libero account"
 }
 

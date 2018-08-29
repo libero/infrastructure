@@ -3,7 +3,7 @@ resource "aws_instance" "unstable" {
   # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
   ami             = "ami-00129b193dc81bc31"
   instance_type   = "t2.micro"
-  subnet_id = "${aws_subnet.main.id}"
+  subnet_id = "${var.subnet_id}"
   associate_public_ip_address = true
 
   tags {
@@ -16,15 +16,6 @@ resource "aws_vpc" "unstable" {
 
   tags {
     Name = "unstable VPC"
-  }
-}
-
-resource "aws_subnet" "main" {
-  cidr_block = "${var.subnet}"
-  vpc_id = "${aws_vpc.unstable.id}"
-
-  tags {
-    Name = "Main Subnet"
   }
 }
 
