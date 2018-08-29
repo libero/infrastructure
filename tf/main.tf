@@ -7,7 +7,7 @@ resource "aws_instance" "unstable" {
   associate_public_ip_address = true
 
   tags {
-    Name = "unstable EC2 Instance"
+    Name = "single-node--unstable"
   }
 }
 
@@ -56,6 +56,6 @@ resource "aws_security_group" "vpc" {
   vpc_id = "${var.vpc_id}"
 
   tags {
-    Name = "vpc_sg"
+    Name = "single-node--unstable--security-group"
   }
 }
