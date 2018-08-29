@@ -11,14 +11,6 @@ resource "aws_instance" "unstable" {
   }
 }
 
-resource "aws_vpc" "unstable" {
-  cidr_block = "${var.vpc_cidr}"
-
-  tags {
-    Name = "unstable VPC"
-  }
-}
-
 resource "aws_security_group" "vpc" {
   name = "vpc_sc"
   ingress {
@@ -61,7 +53,7 @@ resource "aws_security_group" "vpc" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = "${aws_vpc.unstable.id}"
+  vpc_id = "${var.vpc_id}"
 
   tags {
     Name = "vpc_sg"
