@@ -6,7 +6,7 @@ before_install:
   - unzip terraform_0.11.8_linux_amd64.zip
 
 script:
-  - ./terraform init -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+  - ./terraform init --backend-config="key=unstable/terraform.tfstate" -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
   - ./terraform plan -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
 
 before_deploy:
