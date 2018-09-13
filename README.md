@@ -1,6 +1,31 @@
 # infrastructure
 Infrastructure as Code for Libero testing and demos
 
+## Terraform usage
+
+Create a new environment (here named `unstable`):
+
+```
+scripts/generate-keypair.sh unstable
+cd tf/
+terraform init --backend-config="key=unstable/terraform.tfstate"
+terraform plan -out=my.plan
+terraform apply my.plan
+```
+
+Update the environment:
+
+```
+terraform plan -out=my.plan
+terraform apply my.plan
+```
+
+SSH into an instance:
+
+```
+ssh -i tf/single-node--unstable.key ec2-user@$(terraform output single_node_ip)
+```
+
 ## Secrets management
 
 This repository is public, hence secrets are encrypted by default. `gyt-crypt` and optionally `gpg` are used to unlock the contents to be able to use the repository contents.

@@ -1,0 +1,21 @@
+language: bash
+
+before_install:
+  - cd tf
+  - wget https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip
+  - unzip terraform_0.11.8_linux_amd64.zip
+
+script:
+  - ./terraform init -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+  - ./terraform plan -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+
+before_deploy:
+  - cd tf
+
+deploy:
+- provider: script
+  script:
+    - ./terraform apply -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+  skip_cleanup: true
+  on:
+    branch: master
