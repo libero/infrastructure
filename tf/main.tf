@@ -1,8 +1,9 @@
 resource "aws_instance" "single_node" {
-  # This is the latest minimal version of Amazon Linux coupled with ECS container agent, Docker and ecs-init scripts
-  # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
-  ami             = "ami-00129b193dc81bc31"
-  instance_type   = "t2.micro"
+
+  # us-east-1 bionic 18.04 LTS amd64 hvm:ebs-ssd 20180912                    
+  # https://cloud-images.ubuntu.com/locator/ec2/
+  ami = "ami-0ac019f4fcb7cb7e6"
+  instance_type = "t2.micro"
   subnet_id = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
@@ -10,6 +11,16 @@ resource "aws_instance" "single_node" {
 
   tags {
     Name = "single-node--${var.env}"
+  }
+
+  provisioner "remote-exec" {
+    script = "install-docker.sh"
+
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = "${file("single-node--${var.env}.key")}"
+    }
   }
 }
 
@@ -69,3 +80,4 @@ resource "aws_key_pair" "single_node" {
 data "local_file" "public_key" {
   filename = "single-node--${var.env}.key.pub"
 }
+
