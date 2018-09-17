@@ -10,13 +10,13 @@ before_install:
   - unzip terraform_0.11.8_linux_amd64.zip
 
 script:
-  - ./terraform init --backend-config="key=unstable/terraform.tfstate" -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY}
-  - ./terraform plan -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} -out /tmp/terraform.plan
+  - ./terraform init --backend-config="key=unstable/terraform.tfstate"
+  - ./terraform plan -out /tmp/terraform.plan
 
 deploy:
 - provider: script
   script:
-    - ./terraform apply -var aws_access_key=${AWS_ACCESS_KEY_ID} -var aws_secret_key=${AWS_SECRET_ACCESS_KEY} /tmp/terraform.plan
+    - ./terraform apply /tmp/terraform.plan
   skip_cleanup: true
   on:
     branch: master
