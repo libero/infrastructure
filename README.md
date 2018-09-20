@@ -1,6 +1,20 @@
 # infrastructure
 Infrastructure as Code for Libero testing and demos
 
+## Scope
+
+Resources belonging to a Libero AWS account are managed here:
+
+### Servers
+
+EC2 instances are used to demonstrate working versions of Libero's projects.
+
+They run inside the default VPC for `us-east-1` and are based on a minimal Ubuntu OS running Docker and `docker-compose`. Software is deployed in the form of container images.
+
+### DNS
+
+DNS entries for `libero.pub` and similar domains are managed under this AWS account, hence here.
+
 ## Terraform usage
 
 Create a new environment (here named `unstable`):
@@ -23,7 +37,7 @@ terraform apply my.plan
 SSH into an instance:
 
 ```
-ssh -i tf/single-node--unstable.key ec2-user@$(terraform output single_node_ip)
+ssh -i tf/single-node--unstable.key ubuntu@$(terraform output single_node_ip)
 ```
 
 ## Secrets management

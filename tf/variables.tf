@@ -27,4 +27,3 @@ variable "subnet_id" {
   default = "subnet-cec2bec1"
   description = "Default for us-east-1f on Libero account"
 }
-
