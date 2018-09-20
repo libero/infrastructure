@@ -87,7 +87,7 @@ data "aws_route53_zone" "main" {
 
 resource "aws_route53_record" "facade" {
   zone_id = "${data.aws_route53_zone.main.zone_id}"
-  name    = "unstable.${data.aws_route53_zone.main.name}"
+  name    = "${var.env}.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
   records = ["${aws_instance.single_node.public_ip}"]
