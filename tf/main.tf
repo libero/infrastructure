@@ -81,3 +81,14 @@ data "local_file" "public_key" {
   filename = "single-node--${var.env}.key.pub"
 }
 
+data "aws_route53_zone" "main" {
+  name         = "libero.pub."
+}
+
+resource "aws_route53_record" "facade" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "unstable.${data.aws_route53_zone.main.name}"
+  type    = "A"
+  ttl     = "60"
+  records = ["${aws_instance.single_node.public_ip}"]
+}
