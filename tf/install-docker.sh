@@ -7,7 +7,8 @@ sudo apt-get -y install \
     ca-certificates \
     curl \
     software-properties-common \
-    git
+    git \
+    jq
 
 # docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
