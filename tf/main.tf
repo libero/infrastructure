@@ -100,3 +100,11 @@ resource "aws_route53_record" "dummy_api" {
   ttl     = "60"
   records = ["${aws_instance.single_node.public_ip}"]
 }
+
+resource "aws_route53_record" "pattern_library" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--pattern-library.${data.aws_route53_zone.main.name}"
+  type    = "A"
+  ttl     = "60"
+  records = ["${aws_instance.single_node.public_ip}"]
+}
