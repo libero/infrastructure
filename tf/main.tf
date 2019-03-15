@@ -3,7 +3,7 @@ resource "aws_instance" "single_node" {
   # us-east-1 bionic 18.04 LTS amd64 hvm:ebs-ssd 20180912                    
   # https://cloud-images.ubuntu.com/locator/ec2/
   ami = "ami-0ac019f4fcb7cb7e6"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   subnet_id = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
