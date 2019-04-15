@@ -19,9 +19,6 @@ resource "aws_s3_bucket" "elife_style_content_adapter_expanded" {
 resource "aws_iam_user" "elife_style_content_adapter" {
   name = "${var.env}-elife-style-content-adapter"
   path = "/applications/"
-  #tags = {
-  #  Environment = "${var.env}"
-  #}
 }
 
 resource "aws_iam_access_key" "elife_style_content_adapter" {
