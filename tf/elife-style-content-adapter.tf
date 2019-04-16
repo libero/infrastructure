@@ -23,6 +23,15 @@ resource "aws_iam_user" "elife_style_content_adapter" {
 
 resource "aws_iam_access_key" "elife_style_content_adapter" {
   user = "${aws_iam_user.elife_style_content_adapter.name}"
+  pgp_key = "${file("libero-admin.pub")}"
+}
+
+output "credentials_elife_style_content_adapter_id" {
+    value = "${aws_iam_access_key.elife_style_content_adapter.id}"
+}
+
+output "credentials_elife_style_content_adapter_secret" {
+    value = "${aws_iam_access_key.elife_style_content_adapter.encrypted_secret}"
 }
 
 resource "aws_iam_policy" "elife_style_content_adapter_s3_write" {
