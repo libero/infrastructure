@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "elife_style_content_adapter_incoming" {
   bucket = "${var.env}-elife-style-content-adapter-incoming"
-  acl    = "public-read"
 
   tags = {
     Environment = "${var.env}"
@@ -14,6 +13,28 @@ resource "aws_s3_bucket" "elife_style_content_adapter_expanded" {
   tags = {
     Environment = "${var.env}"
   }
+}
+
+resource "aws_s3_bucket_policy" "elife_style_content_adapter_expanded" {
+  bucket = "${aws_s3_bucket.elife_style_content_adapter_expanded.id}"
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${aws_s3_bucket.elife_style_content_adapter_expanded.id}/*"
+            ],
+            "Effect": "Allow",
+            "Principal": "*"
+        }
+    ]
+}
+POLICY
 }
 
 resource "aws_iam_user" "elife_style_content_adapter" {
