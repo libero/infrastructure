@@ -81,3 +81,25 @@ git push
 ### Removing a user
 
 You can remove a user's key from `.git-crypt/keys/default/0/` but this will not prevent them from using their own copy to continue decrypting. What is needed is to [reinitialize `git-crypt` and re-add all the other keys](https://gist.github.com/developerinlondon/6a853fe175178d4aacb0aa55a4cb09a1). Secrets up to the point of change will still be available to that user, this is no different than for a private repository.
+
+### Libero Admin key
+
+`libero-admin.key` and `libero-admin.pub` are a keypair of PGP keys that are used by Terraform to encrypt secrets generated during infrastructure provisioning, such as AWS credentials for applications.
+
+#### Creation and rotation
+
+They have been created with these commands:
+```
+gpg --gen-key
+gpg --armor --export-secret-keys libero-admin@elifesciences.org | tee libero-admin.key
+gpg --export libero-admin@elifesciences.org | base64 | tee libero-admin.pub
+```
+
+All `.key` files are managed by `git-crypt`, including this one.
+
+#### Usage
+
+```
+gpg --import libero-admin.key
+terraform output credentials_elife_style_content_adapter_secret | base64 --decode | gpg --decrypt
+```
