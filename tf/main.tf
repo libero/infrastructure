@@ -8,6 +8,9 @@ resource "aws_instance" "single_node" {
   vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
   key_name = "${aws_key_pair.single_node.key_name}"
+  credit_specification {
+    cpu_credits = "unlimited"
+  }
 
   tags {
     Name = "single-node--${var.env}"
