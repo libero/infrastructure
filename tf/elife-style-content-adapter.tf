@@ -74,20 +74,10 @@ resource "aws_iam_policy" "elife_style_content_adapter_s3_write" {
         {
             "Effect": "Allow",
             "Action": [
-                "s3:ListBucket"
+                "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::${var.env}-elife-style-content-adapter-*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:DeleteObject",
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": [
+                "arn:aws:s3:::${var.env}-elife-style-content-adapter-*",
                 "arn:aws:s3:::${var.env}-elife-style-content-adapter-*/*"
             ]
         }

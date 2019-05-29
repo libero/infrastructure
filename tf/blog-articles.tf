@@ -65,20 +65,10 @@ resource "aws_iam_policy" "blog_articles_s3_write" {
         {
             "Effect": "Allow",
             "Action": [
-                "s3:ListBucket"
+                "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.blog_articles_assets.id}"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:DeleteObject",
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": [
+                "arn:aws:s3:::${aws_s3_bucket.blog_articles_assets.id}",
                 "arn:aws:s3:::${aws_s3_bucket.blog_articles_assets.id}/*"
             ]
         }
