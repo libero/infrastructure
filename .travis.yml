@@ -1,13 +1,17 @@
 language: bash
 
+env:
+  global:
+    - TERRAFORM_VERSION=0.11.14
+
 branches:
   only:
     - master
 
 before_install:
   - cd tf
-  - wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
-  - unzip terraform_0.11.13_linux_amd64.zip
+  - wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+  - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 script:
   - ./terraform init --backend-config="key=unstable/terraform.tfstate"
