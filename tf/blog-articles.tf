@@ -34,16 +34,16 @@ resource "aws_iam_user" "blog_articles" {
 }
 
 resource "aws_iam_access_key" "blog_articles" {
-  user = "${aws_iam_user.blog_articles.name}"
+  user    = "${aws_iam_user.blog_articles.name}"
   pgp_key = "${file("libero-admin.pub")}"
 }
 
 output "credentials_blog_articles_id" {
-    value = "${aws_iam_access_key.blog_articles.id}"
+  value = "${aws_iam_access_key.blog_articles.id}"
 }
 
 output "credentials_blog_articles_secret" {
-    value = "${aws_iam_access_key.blog_articles.encrypted_secret}"
+  value = "${aws_iam_access_key.blog_articles.encrypted_secret}"
 }
 
 resource "aws_iam_policy" "blog_articles_s3_write" {
