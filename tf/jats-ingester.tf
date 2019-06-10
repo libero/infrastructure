@@ -56,7 +56,7 @@ output "credentials_jats_ingester_secret" {
 }
 
 resource "aws_iam_policy" "jats_ingester_s3_write" {
-  name        = "ElifeStyleContentAdapterS3Write"
+  name        = "JatsIngesterS3Write"
   path        = "/"
   description = "Allows read and write access to jats-ingester S3 storage"
 
