@@ -62,6 +62,14 @@ resource "aws_security_group" "single_node" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # jats-ingester 
+  ingress {
+    from_port = 8085
+    to_port = 8085
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
     from_port = 22
     to_port = 22
