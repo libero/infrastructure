@@ -3,7 +3,7 @@ resource "aws_instance" "single_node" {
   # us-east-1 bionic 18.04 LTS amd64 hvm:ebs-ssd 20180912                    
   # https://cloud-images.ubuntu.com/locator/ec2/
   ami = "ami-0ac019f4fcb7cb7e6"
-  instance_type = "t2.small"
+  instance_type = "t2.medium"
   subnet_id = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
   associate_public_ip_address = true
@@ -58,6 +58,14 @@ resource "aws_security_group" "single_node" {
   ingress {
     from_port = 8081
     to_port = 8081
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # jats-ingester 
+  ingress {
+    from_port = 8085
+    to_port = 8085
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -123,6 +131,14 @@ resource "aws_route53_record" "pattern_library" {
 resource "aws_route53_record" "api_gateway" {
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}--api-gateway.${data.aws_route53_zone.main.name}"
+  type    = "A"
+  ttl     = "60"
+  records = ["${aws_instance.single_node.public_ip}"]
+}
+
+resource "aws_route53_record" "jats_ingester" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--jats-ingester.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
   records = ["${aws_instance.single_node.public_ip}"]
