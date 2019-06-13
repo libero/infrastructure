@@ -12,6 +12,10 @@ resource "aws_instance" "single_node" {
     cpu_credits = "unlimited"
   }
 
+  root_block_device {
+    volume_size = 20
+  }
+
   tags {
     Name = "single-node--${var.env}"
   }
