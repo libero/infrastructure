@@ -13,6 +13,7 @@ resource "aws_instance" "single_node" {
   }
 
   root_block_device {
+    volume_type = "standard"
     volume_size = 20
   }
 
