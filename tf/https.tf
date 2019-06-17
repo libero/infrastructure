@@ -13,7 +13,7 @@ resource "acme_registration" "reg" {
 }
 
 data "local_file" "https_certificate_key" {
-    filename = "registration.key"
+    filename = "certificate.key"
 }
 
 resource "tls_cert_request" "req" {
