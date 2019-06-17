@@ -31,6 +31,7 @@ resource "acme_certificate" "certificate" {
   certificate_request_pem   = "${tls_cert_request.req.cert_request_pem}"
   #common_name               = "unstable.libero.pub"
   #subject_alternative_names = ["www2.example.com"]
+  min_days_remaining         = 30
 
   dns_challenge {
     provider = "route53"
