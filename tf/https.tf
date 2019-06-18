@@ -18,19 +18,18 @@ data "local_file" "https_certificate_key" {
 
 resource "tls_cert_request" "req" {
   key_algorithm   = "RSA"
+  # Only an irreversable secure hash of the private key will be stored in the Terraform state. https://www.terraform.io/docs/providers/tls/r/cert_request.html
   private_key_pem = "${data.local_file.https_certificate_key.content}"
-  #dns_names       = ["www.example.com", "www2.example.com"]
-
+  # can't make wildcard certificates work easily
+  dns_names       = ["${var.env}--dummy-api.libero.pub", "${var.env}--pattern-library.libero.pub", "${var.env}--api-gateway.libero.pub", "${var.env}--jats-ingester.libero.pub"]
   subject {
-    common_name = "unstable.libero.pub"
+    common_name = "${var.env}.libero.pub"
   }
 }
 
 resource "acme_certificate" "certificate" {
   account_key_pem           = "${acme_registration.reg.account_key_pem}"
   certificate_request_pem   = "${tls_cert_request.req.cert_request_pem}"
-  #common_name               = "unstable.libero.pub"
-  #subject_alternative_names = ["www2.example.com"]
   min_days_remaining         = 30
 
   dns_challenge {
