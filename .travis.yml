@@ -9,6 +9,8 @@ branches:
     - master
 
 before_install:
+  - TRAVIS_KEY=$encrypted_656a7d042f6e_key TRAVIS_IV=$encrypted_656a7d042f6e_iv .scripts/travis/git-crypt-unlock.sh travis-ci.key.enc
+  - bash -c '[ "$(head -n 1 tf/registration.key)" == "-----BEGIN RSA PRIVATE KEY-----" ]'
   - cd tf
   - wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
   - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
