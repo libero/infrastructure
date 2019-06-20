@@ -38,9 +38,5 @@ resource "acme_certificate" "certificate" {
 }
 
 output "https_certificate_pem" {
-  value = "${acme_certificate.certificate.certificate_pem}"
-}
-
-output "https_issuer_pem" {
-  value = "${acme_certificate.certificate.issuer_pem}"
+  value = "${acme_certificate.certificate.certificate_pem}\n${acme_certificate.certificate.issuer_pem}"
 }
