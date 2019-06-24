@@ -40,9 +40,15 @@ SSH into an instance:
 ssh -i tf/single-node--unstable.key ubuntu@$(terraform output single_node_ip)
 ```
 
+Dump the HTTPS certificate:
+
+```
+terraform output https_certificate_pem
+```
+
 ## Secrets management
 
-This repository is public, hence secrets are encrypted by default. `gyt-crypt` and optionally `gpg` are used to unlock the contents to be able to use the repository contents.
+This repository is public, hence secrets are encrypted by default. `git-crypt` and optionally `gpg` are used to unlock the contents to be able to use the repository contents.
 
 `git-crypt` encrypts data with a symmetric key, and places encrypted versions of that key in `.git-crypt`; one value for each public key of the users that should be able to access that data. It is easy to add new users, more complex to remove them.
 
