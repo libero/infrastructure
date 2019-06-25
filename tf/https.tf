@@ -41,9 +41,41 @@ output "https_certificate_pem" {
   value = "${acme_certificate.certificate.certificate_pem}\n${acme_certificate.certificate.issuer_pem}"
 }
 
-resource "aws_route53_record" "caa" {
+resource "aws_route53_record" "caa_browser" {
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}.libero.pub"
+  type    = "CAA"
+  ttl     = "86400"
+  records = ["0 issue \"letsencrypt.org\""]
+}
+
+resource "aws_route53_record" "caa_dummy_api" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--dummy-api.libero.pub"
+  type    = "CAA"
+  ttl     = "86400"
+  records = ["0 issue \"letsencrypt.org\""]
+}
+
+resource "aws_route53_record" "caa_api_gateway" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--api-gateway.libero.pub"
+  type    = "CAA"
+  ttl     = "86400"
+  records = ["0 issue \"letsencrypt.org\""]
+}
+
+resource "aws_route53_record" "caa_pattern_library" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--pattern-library.libero.pub"
+  type    = "CAA"
+  ttl     = "86400"
+  records = ["0 issue \"letsencrypt.org\""]
+}
+
+resource "aws_route53_record" "caa_jats_ingester" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "${var.env}--jats-ingester.libero.pub"
   type    = "CAA"
   ttl     = "86400"
   records = ["0 issue \"letsencrypt.org\""]
