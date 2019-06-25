@@ -43,7 +43,7 @@ output "https_certificate_pem" {
 
 resource "aws_route53_record" "caa" {
   zone_id = "${data.aws_route53_zone.main.zone_id}"
-  name    = "unstable.libero.pub"
+  name    = "${var.env}.libero.pub"
   type    = "CAA"
   ttl     = "86400"
   records = ["0 issue \"letsencrypt.org\""]
