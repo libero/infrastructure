@@ -40,3 +40,11 @@ resource "acme_certificate" "certificate" {
 output "https_certificate_pem" {
   value = "${acme_certificate.certificate.certificate_pem}\n${acme_certificate.certificate.issuer_pem}"
 }
+
+resource "aws_route53_record" "caa" {
+  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  name    = "unstable.libero.pub"
+  type    = "CAA"
+  ttl     = "86400"
+  records = ["0 issue \"letsencrypt.org\""]
+}
