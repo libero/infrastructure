@@ -23,6 +23,7 @@ deploy:
 - provider: script
   script:
     - ./terraform apply /tmp/terraform.plan
+    # new `terraform init` should be told to not use existing state
   skip_cleanup: true
   on:
     branch: master
