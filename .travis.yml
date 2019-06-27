@@ -26,7 +26,6 @@ deploy:
   script:
     - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
     - ./terraform apply /tmp/unstable.plan
-    # new `terraform init` should be told to not use existing state
   skip_cleanup: true
   on:
     branch: master
