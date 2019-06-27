@@ -48,7 +48,7 @@ output "credentials_scholarly_articles_secret" {
 
 resource "aws_iam_policy" "scholarly_articles_s3_write" {
   name        = "ScholarlyArticlesS3Write"
-  path        = "/"
+  path        = "/${var.env}/"
   description = "Allows read and write access to scholarly-articles-assets S3 storage"
 
   policy = <<EOF

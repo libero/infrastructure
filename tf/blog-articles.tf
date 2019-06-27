@@ -48,7 +48,7 @@ output "credentials_blog_articles_secret" {
 
 resource "aws_iam_policy" "blog_articles_s3_write" {
   name        = "blogArticlesS3Write"
-  path        = "/"
+  path        = "/${var.env}/"
   description = "Allows read and write access to blog-articles-assets S3 storage"
 
   policy = <<EOF
