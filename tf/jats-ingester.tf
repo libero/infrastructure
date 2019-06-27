@@ -56,8 +56,8 @@ output "credentials_jats_ingester_secret" {
 }
 
 resource "aws_iam_policy" "jats_ingester_s3_write" {
-  name        = "JatsIngesterS3Write"
-  path        = "/${var.env}/"
+  name        = "${var.env}JatsIngesterS3Write"
+  path        = "/applications/"
   description = "Allows read and write access to jats-ingester S3 storage"
 
   policy = <<EOF
