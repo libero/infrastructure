@@ -16,13 +16,16 @@ before_install:
   - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 script:
-  - ./terraform init --backend-config="key=unstable/terraform.tfstate"
-  - ./terraform plan -out /tmp/terraform.plan
+  - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+  - ./terraform plan -var env=unstable -out /tmp/unstable.plan
+  - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
+  - ./terraform plan -var end=demo -out /tmp/demo.plan
 
 deploy:
 - provider: script
   script:
-    - ./terraform apply /tmp/terraform.plan
+    - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+    - ./terraform apply /tmp/unstable.plan
     # new `terraform init` should be told to not use existing state
   skip_cleanup: true
   on:
