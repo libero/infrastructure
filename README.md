@@ -24,7 +24,7 @@ ENVIRONMENT_NAME=unstable
 scripts/generate-keypair.sh $ENVIRONMENT_NAME
 cd tf/
 terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
-terraform plan -out=my.plan
+terraform plan -var env=$ENVIRONMENT_NAME -out=my.plan
 terraform apply my.plan
 ```
 
