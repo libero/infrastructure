@@ -8,7 +8,7 @@ provider "local" {
 terraform {
   backend "s3" {
     bucket = "libero-terraform"
-    # specify with terraform init --backend-config="key=.../terraform.tfstate" to make it dynamic
+    # specify with terraform init --backend-config="key=<env>/terraform.tfstate" to make it dynamic
     #key    = "unstable/terraform.tfstate"
     region = "us-east-1"
   }
