@@ -7,6 +7,7 @@ env:
 branches:
   only:
     - master
+    - /^latest\/.+$/
 
 before_install:
   - TRAVIS_KEY=$encrypted_656a7d042f6e_key TRAVIS_IV=$encrypted_656a7d042f6e_iv .scripts/travis/git-crypt-unlock.sh travis-ci.key.enc
@@ -16,13 +17,22 @@ before_install:
   - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 script:
-  - ./terraform init --backend-config="key=unstable/terraform.tfstate"
-  - ./terraform plan -out /tmp/terraform.plan
+  - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+  - ./terraform plan -var env=unstable -out /tmp/unstable.plan
+  - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
+  - ./terraform plan -var end=demo -out /tmp/demo.plan
 
 deploy:
 - provider: script
   script:
-    - ./terraform apply /tmp/terraform.plan
+    - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+    - ./terraform apply /tmp/unstable.plan
   skip_cleanup: true
   on:
     branch: master
+- provider: script
+  script:
+    - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
+    - ./terraform apply /tmp/demo.plan
+  on:
+      tags: true

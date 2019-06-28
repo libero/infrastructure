@@ -20,10 +20,11 @@ DNS entries for `libero.pub` and similar domains are managed under this AWS acco
 Create a new environment (here named `unstable`):
 
 ```
-scripts/generate-keypair.sh unstable
+ENVIRONMENT_NAME=unstable
+scripts/generate-keypair.sh $ENVIRONMENT_NAME
 cd tf/
-terraform init --backend-config="key=unstable/terraform.tfstate"
-terraform plan -out=my.plan
+terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
+terraform plan -var env=$ENVIRONMENT_NAME -out=my.plan
 terraform apply my.plan
 ```
 
@@ -37,7 +38,7 @@ terraform apply my.plan
 SSH into an instance:
 
 ```
-ssh -i tf/single-node--unstable.key ubuntu@$(terraform output single_node_ip)
+ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(terraform output single_node_ip)
 ```
 
 Dump the HTTPS certificate:
