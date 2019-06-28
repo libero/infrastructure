@@ -23,7 +23,7 @@ script:
   - ./terraform plan -var env=demo -out /tmp/demo.plan
 
 deploy:
-  - provider: scripincomingt
+  - provider:
     script:
       - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
       - ./terraform apply /tmp/unstable.plan
