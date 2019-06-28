@@ -15,6 +15,14 @@ resource "aws_s3_bucket" "jats_ingester_expanded" {
   }
 }
 
+resource "aws_s3_bucket" "jats_ingester_logs" {
+  bucket = "${var.env}-jats-ingester-logs"
+
+  tags = {
+    Environment = "${var.env}"
+  }
+}
+
 resource "aws_s3_bucket_policy" "jats_ingester_expanded" {
   bucket = "${aws_s3_bucket.jats_ingester_expanded.id}"
 
