@@ -23,7 +23,7 @@ script:
   - ./terraform plan -var env=demo -out /tmp/demo.plan
 
 deploy:
-  - provider:
+  - provider: script
     script:
       - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
       - ./terraform apply /tmp/unstable.plan
@@ -36,4 +36,4 @@ deploy:
       - ./terraform apply /tmp/demo.plan
     skip_cleanup: true
     on:
-        tags: true
+      tags: true
