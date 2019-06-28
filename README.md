@@ -1,6 +1,11 @@
 # infrastructure
 Infrastructure as Code for Libero testing and demos
 
+## Environments
+
+- `unstable`: every `master` build of this repository applies changes.
+- `demo`: pushing a new `latest/*` tag (e.g. `latest/20190628`) applies changes.
+
 ## Scope
 
 Resources belonging to a Libero AWS account are managed here:
