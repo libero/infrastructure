@@ -22,7 +22,7 @@ resource "aws_instance" "single_node" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i ${var.env}.${data.aws_route53_zone.main.name}, --key-file ${data.local_file.public_key.content} playbooks/*.playbook"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${aws_instance.single_node.public_ip}, --key-file ${data.local_file.public_key.filename} ../playbooks/boot.playbook"
   }
 }
 
