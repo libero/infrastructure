@@ -15,8 +15,8 @@ before_install:
   - cd tf
   - wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
   - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-  - apt-add-repository --yes --update ppa:ansible/ansible
-  - apt-get install ansible
+  - sudo apt-add-repository --yes --update ppa:ansible/ansible
+  - sudo apt-get install ansible
 
 
 script:
