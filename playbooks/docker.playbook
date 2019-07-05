@@ -1,0 +1,29 @@
+---
+- hosts: '*'
+  gather_facts: False
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+
+  tasks:
+  - apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  
+  - apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu/ bionic stable
+      state: present
+
+  - apt:
+      name: docker-ce
+      update_cache: yes
+
+  - get_url:
+      url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: '0755'
+
+  - user:
+      name: ubuntu
+      groups: docker
+      append: yes

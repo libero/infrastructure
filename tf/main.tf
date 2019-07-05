@@ -21,14 +21,8 @@ resource "aws_instance" "single_node" {
     Name = "single-node--${var.env}"
   }
 
-  provisioner "remote-exec" {
-    script = "install-docker.sh"
-
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file("single-node--${var.env}.key")}"
-    }
+  provisioner "local-exec" {
+    command = "../scripts/ansible-playbooks.sh ${aws_instance.single_node.public_ip} single-node--${var.env}.key"
   }
 }
 

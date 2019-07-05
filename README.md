@@ -52,6 +52,8 @@ Dump the HTTPS certificate:
 terraform output https_certificate_pem
 ```
 
+An environment named `test` is reserved for destruction, creation and any other exploration.
+
 ## Secrets management
 
 This repository is public, hence secrets are encrypted by default. `git-crypt` and optionally `gpg` are used to unlock the contents to be able to use the repository contents.
