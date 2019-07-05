@@ -22,7 +22,7 @@ resource "aws_instance" "single_node" {
   }
 
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${aws_instance.single_node.public_ip}, --key-file single-node--${var.env}.key ../playbooks/boot.playbook ../playbooks/docker.playbook ../playbooks/newrelic-infrastructure.playbook"
+    command = "../scripts/ansible-playbooks.sh ${aws_instance.single_node.public_ip} single-node--${var.env}.key"
   }
 }
 
