@@ -4,7 +4,7 @@ provider "acme" {
 }
 
 data "local_file" "https_registration_key" {
-    filename = "registration.key"
+    filename = "registration--${var.env}.key"
 }
 
 resource "acme_registration" "reg" {
@@ -13,7 +13,7 @@ resource "acme_registration" "reg" {
 }
 
 data "local_file" "https_certificate_key" {
-    filename = "certificate.key"
+    filename = "certificate--${var.env}.key"
 }
 
 resource "tls_cert_request" "req" {
