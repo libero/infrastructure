@@ -6,8 +6,10 @@ resource "aws_s3_bucket" "reviewer_storybook" {
   }
 }
 
-resource "aws_s3_bucket_policy" "reviewer_storybook" {
-  bucket = "${aws_s3_bucket.reviewer_storybook.id}"
+resource "aws_iam_policy" "reviewer_travis_ci_s3" {
+  name        = "${var.env}ReviewerTravisCiS3"
+  path        = "/applications/"
+  description = "Allows read and write access to Reviewer Travis CI S3 storage"
 
   policy = <<POLICY
 {
