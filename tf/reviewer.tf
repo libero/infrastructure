@@ -6,6 +6,28 @@ resource "aws_s3_bucket" "reviewer_storybook" {
   }
 }
 
+resource "aws_s3_bucket_policy" "reviewer_storybook" {
+  bucket = "${aws_s3_bucket.reviewer_storybook.id}"
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${aws_s3_bucket.reviewer_storybook.id}/*"
+            ],
+            "Effect": "Allow",
+            "Principal": "*"
+        }
+    ]
+}
+POLICY
+}
+
 resource "aws_iam_policy" "reviewer_travis_ci_s3" {
   name        = "${var.env}ReviewerTravisCiS3"
   path        = "/applications/"
