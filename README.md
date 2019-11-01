@@ -26,7 +26,7 @@ This repository is public, hence secrets are encrypted by default. `git-crypt` a
 
 `git-crypt` encrypts data with a symmetric key, and places encrypted versions of that key in `.git-crypt`; one value for each public key of the users that should be able to access that data. It is easy to add new users, more complex to remove them.
 
-Once your public key has been added you can unlock the repository (see Admin section below for how), you can decrypt the repository:
+Once your public key has been added, you can unlock the repository (see [Admin](#admin) section below for how), you can decrypt the repository:
 
 ```bash
 git-crypt unlock
@@ -38,13 +38,13 @@ You will need to set up AWS credentials in your ~/.aws/credentials file:
 
 ```
 [libero]
-aws_acess_key=<access key id>
+aws_acess_key_id=<access key id>
 aws_secret_access_key=<secret access key>
 ```
 
 Then set your current AWS profile:
 ```bash
-$ export $AWS_PROFILE=libero
+$ export AWS_PROFILE=libero
 ```
 
 ### New environment
@@ -65,6 +65,7 @@ To get the state of an existing environment (here named `unstable`):
 ```bash
 ENVIRONMENT_NAME=unstable
 cd tf/
+rm -rf .terraform
 terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
 ```
 
@@ -76,6 +77,8 @@ Update the environment:
 terraform plan -out=my.plan
 terraform apply my.plan
 ```
+
+Note: normally `apply` should not be executed, as it's done via CI on merge.
 
 ### SSH into instance
 SSH into an instance:
