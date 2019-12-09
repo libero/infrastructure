@@ -95,7 +95,7 @@ The libero-admin.key and libero-admin.pub are a keypair of PGP keys that are use
 gpg --import libero-admin.key
 ```
 
-You can then use the `./terraform output` commmand to extract resource information. For example, to ddmp the HTTPS certificate:
+You can then use the `./terraform output` commmand to extract resource information. For example, to dump the HTTPS certificate:
 
 ```bash
 ./terraform output https_certificate_pem
