@@ -18,10 +18,11 @@ before_install:
 
 
 script:
-  - cd tf && rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
-  - cd tf && ./terraform plan -var env=unstable -out /tmp/unstable.plan
-  - cd tf && rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
-  - cd tf && ./terraform plan -var env=demo -out /tmp/demo.plan
+  - cd tf
+  - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+  - ./terraform plan -var env=unstable -out /tmp/unstable.plan
+  - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
+  - ./terraform plan -var env=demo -out /tmp/demo.plan
 
 deploy:
   - provider: script
