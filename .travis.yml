@@ -12,27 +12,25 @@ branches:
 before_install:
   - TRAVIS_KEY=$encrypted_656a7d042f6e_key TRAVIS_IV=$encrypted_656a7d042f6e_iv .scripts/travis/git-crypt-unlock.sh travis-ci.key.enc
   - bash -c '[ "$(head -n 1 tf/registration--unstable.key)" == "-----BEGIN RSA PRIVATE KEY-----" ]'
-  - cd tf
-  - wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-  - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+  - ./download-terraform.sh
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt-get install ansible
 
 
 script:
-  - rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
-  - ./terraform plan -var env=unstable -out /tmp/unstable.plan
-  - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
-  - ./terraform plan -var env=demo -out /tmp/demo.plan
+  - cd tf && rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false
+  - cd tf && ./terraform plan -var env=unstable -out /tmp/unstable.plan
+  - cd tf && rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
+  - cd tf && ./terraform plan -var env=demo -out /tmp/demo.plan
 
 deploy:
   - provider: script
-    script: rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false && ./terraform apply /tmp/unstable.plan
+    script: cd tf && rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false && ./terraform apply /tmp/unstable.plan
     skip_cleanup: true
     on:
       branch: master
   - provider: script
-    script: rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false && ./terraform apply /tmp/demo.plan
+    script: cd tf && rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false && ./terraform apply /tmp/demo.plan
     skip_cleanup: true
     on:
       tags: true
