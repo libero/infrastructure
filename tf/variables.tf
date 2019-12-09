@@ -27,3 +27,9 @@ variable "subnet_id" {
   default = "subnet-cec2bec1"
   description = "Default for us-east-1f on Libero account"
 }
+
+variable "create_single_node_architecture" {
+  description = "Controls if single-node-architecture resources should be created"
+  type        = bool
+  default     = true
+}

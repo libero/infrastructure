@@ -1,4 +1,5 @@
 resource "aws_instance" "single_node" {
+  count = var.create_single_node_architecture ? 1 : 0
 
   # us-east-1 bionic 18.04 LTS amd64 hvm:ebs-ssd 20180912                    
   # https://cloud-images.ubuntu.com/locator/ec2/
@@ -17,21 +18,21 @@ resource "aws_instance" "single_node" {
     volume_size = 20
   }
 
-  tags {
+  tags = {
     Name = "single-node--${var.env}"
   }
 
   provisioner "local-exec" {
-    command = "../scripts/ansible-playbooks.sh ${aws_instance.single_node.public_ip} single-node--${var.env}.key"
+    command = "../scripts/ansible-playbooks.sh ${aws_instance.single_node[count.index].public_ip} single-node--${var.env}.key"
   }
 }
 
 output "single_node_ip" {
-  value = "${aws_instance.single_node.public_ip}"
+  value = element(concat(aws_instance.single_node.*.public_ip, list("")), 0)
 }
 
 output "single_node_key_name" {
-  value = "${aws_instance.single_node.key_name}"
+  value = element(concat(aws_instance.single_node.*.key_name, list("")), 0)
 }
 
 resource "aws_security_group" "single_node" {
@@ -85,7 +86,7 @@ resource "aws_security_group" "single_node" {
 
   vpc_id = "${var.vpc_id}"
 
-  tags {
+  tags = {
     Name = "single-node--${var.env}--security-group"
   }
 }
@@ -104,41 +105,46 @@ data "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_record" "facade" {
+  count = var.create_single_node_architecture ? 1 : 0
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = ["${aws_instance.single_node[count.index].public_ip}"]
 }
 
 resource "aws_route53_record" "dummy_api" {
+  count = var.create_single_node_architecture ? 1 : 0
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}--dummy-api.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = ["${aws_instance.single_node[count.index].public_ip}"]
 }
 
 resource "aws_route53_record" "pattern_library" {
+  count = var.create_single_node_architecture ? 1 : 0
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}--pattern-library.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = ["${aws_instance.single_node[count.index].public_ip}"]
 }
 
 resource "aws_route53_record" "api_gateway" {
+  count = var.create_single_node_architecture ? 1 : 0
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}--api-gateway.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = ["${aws_instance.single_node[count.index].public_ip}"]
 }
 
 resource "aws_route53_record" "jats_ingester" {
+  count = var.create_single_node_architecture ? 1 : 0
   zone_id = "${data.aws_route53_zone.main.zone_id}"
   name    = "${var.env}--jats-ingester.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = ["${aws_instance.single_node[count.index].public_ip}"]
 }

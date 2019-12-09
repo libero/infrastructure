@@ -1,4 +1,5 @@
 resource "aws_s3_bucket" "jats_ingester_incoming" {
+  count = var.create_single_node_architecture ? 1 : 0
   bucket = "${var.env}-jats-ingester-incoming"
 
   tags = {
@@ -7,6 +8,7 @@ resource "aws_s3_bucket" "jats_ingester_incoming" {
 }
 
 resource "aws_s3_bucket" "jats_ingester_expanded" {
+  count = var.create_single_node_architecture ? 1 : 0
   bucket = "${var.env}-jats-ingester-expanded"
   acl    = "public-read"
 
@@ -16,6 +18,7 @@ resource "aws_s3_bucket" "jats_ingester_expanded" {
 }
 
 resource "aws_s3_bucket" "jats_ingester_completed_tasks" {
+  count = var.create_single_node_architecture ? 1 : 0
   bucket = "${var.env}-jats-ingester-completed-tasks"
 
   tags = {
@@ -24,6 +27,7 @@ resource "aws_s3_bucket" "jats_ingester_completed_tasks" {
 }
 
 resource "aws_s3_bucket" "jats_ingester_logs" {
+  count = var.create_single_node_architecture ? 1 : 0
   bucket = "${var.env}-jats-ingester-logs"
 
   tags = {
@@ -32,7 +36,8 @@ resource "aws_s3_bucket" "jats_ingester_logs" {
 }
 
 resource "aws_s3_bucket_policy" "jats_ingester_expanded" {
-  bucket = "${aws_s3_bucket.jats_ingester_expanded.id}"
+  count = var.create_single_node_architecture ? 1 : 0
+  bucket = "${aws_s3_bucket.jats_ingester_expanded[count.index].id}"
 
   policy = <<POLICY
 {
@@ -43,7 +48,7 @@ resource "aws_s3_bucket_policy" "jats_ingester_expanded" {
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.jats_ingester_expanded.id}/*"
+                "arn:aws:s3:::${aws_s3_bucket.jats_ingester_expanded[count.index].id}/*"
             ],
             "Effect": "Allow",
             "Principal": "*"
@@ -54,24 +59,27 @@ POLICY
 }
 
 resource "aws_iam_user" "jats_ingester" {
+  count = var.create_single_node_architecture ? 1 : 0
   name = "${var.env}-jats-ingester"
   path = "/applications/"
 }
 
 resource "aws_iam_access_key" "jats_ingester" {
-  user = "${aws_iam_user.jats_ingester.name}"
+  count = var.create_single_node_architecture ? 1 : 0
+  user = "${aws_iam_user.jats_ingester[count.index].name}"
   pgp_key = "${file("libero-admin.pub")}"
 }
 
 output "credentials_jats_ingester_id" {
-    value = "${aws_iam_access_key.jats_ingester.id}"
+  value = aws_iam_access_key.jats_ingester.*.id
 }
 
 output "credentials_jats_ingester_secret" {
-    value = "${aws_iam_access_key.jats_ingester.encrypted_secret}"
+  value = aws_iam_access_key.jats_ingester.*.encrypted_secret
 }
 
 resource "aws_iam_policy" "jats_ingester_s3_write" {
+  count = var.create_single_node_architecture ? 1 : 0
   name        = "${var.env}JatsIngesterS3Write"
   path        = "/applications/"
   description = "Allows read and write access to jats-ingester S3 storage"
@@ -103,6 +111,7 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "jats_ingester_s3_write" {
-  user       = "${aws_iam_user.jats_ingester.name}"
-  policy_arn = "${aws_iam_policy.jats_ingester_s3_write.arn}"
+  count = var.create_single_node_architecture ? 1 : 0
+  user       = "${aws_iam_user.jats_ingester[count.index].name}"
+  policy_arn = "${aws_iam_policy.jats_ingester_s3_write[count.index].arn}"
 }

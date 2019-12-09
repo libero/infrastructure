@@ -1,4 +1,5 @@
 resource "aws_s3_bucket" "scholarly_articles_assets" {
+  count = var.create_single_node_architecture ? 1 : 0
   bucket = "${var.env}-scholarly-articles-assets"
 
   tags = {
@@ -7,7 +8,8 @@ resource "aws_s3_bucket" "scholarly_articles_assets" {
 }
 
 resource "aws_s3_bucket_policy" "scholarly_articles_assets" {
-  bucket = "${aws_s3_bucket.scholarly_articles_assets.id}"
+  count = var.create_single_node_architecture ? 1 : 0
+  bucket = "${aws_s3_bucket.scholarly_articles_assets[count.index].id}"
 
   policy = <<POLICY
 {
@@ -18,7 +20,7 @@ resource "aws_s3_bucket_policy" "scholarly_articles_assets" {
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets.id}/*"
+                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets[count.index].id}/*"
             ],
             "Effect": "Allow",
             "Principal": "*"
@@ -29,24 +31,27 @@ POLICY
 }
 
 resource "aws_iam_user" "scholarly_articles" {
+  count = var.create_single_node_architecture ? 1 : 0
   name = "${var.env}-scholarly-articles"
   path = "/applications/"
 }
 
 resource "aws_iam_access_key" "scholarly_articles" {
-  user    = "${aws_iam_user.scholarly_articles.name}"
+  count = var.create_single_node_architecture ? 1 : 0
+  user    = "${aws_iam_user.scholarly_articles[count.index].name}"
   pgp_key = "${file("libero-admin.pub")}"
 }
 
 output "credentials_scholarly_articles_id" {
-  value = "${aws_iam_access_key.scholarly_articles.id}"
+  value = concat(aws_iam_access_key.scholarly_articles.*.id, [""])[0]
 }
 
 output "credentials_scholarly_articles_secret" {
-  value = "${aws_iam_access_key.scholarly_articles.encrypted_secret}"
+  value = concat(aws_iam_access_key.scholarly_articles.*.encrypted_secret, [""])[0]
 }
 
 resource "aws_iam_policy" "scholarly_articles_s3_write" {
+  count = var.create_single_node_architecture ? 1 : 0
   name        = "${var.env}ScholarlyArticlesS3Write"
   path        = "/applications/"
   description = "Allows read and write access to scholarly-articles-assets S3 storage"
@@ -68,8 +73,8 @@ resource "aws_iam_policy" "scholarly_articles_s3_write" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets.id}",
-                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets.id}/*"
+                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets[count.index].id}",
+                "arn:aws:s3:::${aws_s3_bucket.scholarly_articles_assets[count.index].id}/*"
             ]
         }
     ]
@@ -78,6 +83,7 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "scholarly_articles_s3_write" {
-  user       = "${aws_iam_user.scholarly_articles.name}"
-  policy_arn = "${aws_iam_policy.scholarly_articles_s3_write.arn}"
+  count = var.create_single_node_architecture ? 1 : 0
+  user       = "${aws_iam_user.scholarly_articles[count.index].name}"
+  policy_arn = "${aws_iam_policy.scholarly_articles_s3_write[count.index].arn}"
 }
