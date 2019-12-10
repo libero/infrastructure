@@ -1,3 +1,4 @@
 /tf/.terraform
 /tf/terraform
 /tf/*.plan
+/tf/envs/*/.terraform/
