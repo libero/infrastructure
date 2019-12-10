@@ -17,7 +17,7 @@ resource "aws_instance" "single_node" {
     volume_size = 20
   }
 
-  tags {
+  tags = {
     Name = "single-node--${var.env}"
   }
 
@@ -85,7 +85,7 @@ resource "aws_security_group" "single_node" {
 
   vpc_id = "${var.vpc_id}"
 
-  tags {
+  tags = {
     Name = "single-node--${var.env}--security-group"
   }
 }

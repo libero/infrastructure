@@ -38,7 +38,7 @@ You will need to set up AWS credentials in your ~/.aws/credentials file:
 
 ```
 [libero]
-aws_acess_key_id=<access key id>
+aws_access_key_id=<access key id>
 aws_secret_access_key=<secret access key>
 ```
 
@@ -54,9 +54,9 @@ Create a new environment (here named `unstable`):
 ENVIRONMENT_NAME=unstable
 scripts/generate-keypair.sh $ENVIRONMENT_NAME
 cd tf/
-terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
-terraform plan -var env=$ENVIRONMENT_NAME -out=my.plan
-terraform apply my.plan
+./terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
+./terraform plan -var env=$ENVIRONMENT_NAME -out=my.plan
+./terraform apply my.plan
 ```
 
 ### Fetch current environment state
@@ -66,7 +66,7 @@ To get the state of an existing environment (here named `unstable`):
 ENVIRONMENT_NAME=unstable
 cd tf/
 rm -rf .terraform
-terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
+./terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
 ```
 
 ### Update an environment
@@ -74,8 +74,8 @@ terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
 Update the environment:
 
 ```bash
-terraform plan -out=my.plan
-terraform apply my.plan
+./terraform plan -out=my.plan
+./terraform apply my.plan
 ```
 
 Note: normally `apply` should not be executed, as it's done via CI on merge.
@@ -84,7 +84,7 @@ Note: normally `apply` should not be executed, as it's done via CI on merge.
 SSH into an instance:
 
 ```bash
-ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(terraform output single_node_ip)
+ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(./terraform output single_node_ip)
 ```
 
 ### Output resource information
@@ -95,10 +95,10 @@ The libero-admin.key and libero-admin.pub are a keypair of PGP keys that are use
 gpg --import libero-admin.key
 ```
 
-You can then use the `terraform output` commmand to extract resource information. For example, to dump the HTTPS certificate:
+You can then use the `./terraform output` commmand to extract resource information. For example, to dump the HTTPS certificate:
 
 ```bash
-terraform output https_certificate_pem
+./terraform output https_certificate_pem
 ```
 
 An environment named `test` is reserved for destruction, creation and any other exploration.
