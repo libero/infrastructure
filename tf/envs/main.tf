@@ -23,6 +23,7 @@ terraform {
     #key    = "unstable/terraform.tfstate"
     region = "us-east-1"
   }
+  required_version = ">= 0.12.0"
 }
 
 module "kubernetes_cluster" {
