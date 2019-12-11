@@ -3,6 +3,7 @@ language: bash
 env:
   global:
     - TERRAFORM_VERSION=0.11.14
+    - TERRAFORM=../../terraform
 
 branches:
   only:
@@ -24,8 +25,8 @@ script:
   - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
   - ./terraform plan -var env=demo -out /tmp/demo.plan
   - cd envs/buzz
-  - rm -rf .terraform && ../../terraform init --backend-config="key=buzz/terraform.tfstate" -input=false
-  - ../../terraform plan -out /tmp/buzz.plan
+  - rm -rf .terraform && $TERRAFORM init --backend-config="key=buzz/terraform.tfstate" -input=false
+  - $TERRAFORM plan -out /tmp/buzz.plan
   - cd -
 
 deploy:
