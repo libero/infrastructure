@@ -4,7 +4,6 @@ variable "region" {
 }
 
 variable "env" {
-  default = "buzz"
   description = "Environment: unstable, demo, ..."
 }
 
@@ -17,14 +16,14 @@ provider "aws" {
   region = var.region
 }
 
-#terraform {
-#  backend "s3" {
-#    bucket = "libero-terraform"
-#    # specify with terraform init --backend-config="key=<env>/terraform.tfstate" to make it dynamic
-#    #key    = "unstable/terraform.tfstate"
-#    region = "us-east-1"
-#  }
-#}
+terraform {
+  backend "s3" {
+    bucket = "libero-terraform"
+    # specify with terraform init --backend-config="key=<env>/terraform.tfstate" to make it dynamic
+    #key    = "unstable/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
 
 module "kubernetes_cluster" {
   source = "../../modules/kubernetes_cluster"
