@@ -5,8 +5,6 @@ variable "env" {
 }
 
 variable "vpc_id" {
-  default = "vpc-e121f79b"
-  description = "Default VPC for us-east-1 on Libero account"
 }
 
 variable "subnets" {
@@ -14,6 +12,18 @@ variable "subnets" {
 
 variable "map_users" {
   description = "IAM users that can access the cluster. See https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/examples/basic/variables.tf#L32"
+}
+
+resource "aws_security_group" "node_port_services_public_access" {
+  description = "Allows access to NodePort Services from the public internet"
+  name_prefix = "node_port_services_public_access"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port = 30000
+    to_port   = 32767
+    protocol  = "tcp"
+  }
 }
 
 module "eks" {
@@ -27,6 +37,7 @@ module "eks" {
       name                          = "${var.cluster_name}--small"
       instance_type                 = "t2.small"
       asg_desired_capacity          = 2
+      additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
     },
   ]
 
