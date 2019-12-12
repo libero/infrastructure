@@ -43,7 +43,7 @@ module "eks" {
   worker_additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
 
   map_users                            = var.map_users
-  #write_kubeconfig = false
+  write_kubeconfig = false
 }
 
 data "aws_eks_cluster" "cluster" {
