@@ -23,6 +23,7 @@ resource "aws_security_group" "node_port_services_public_access" {
     from_port = 30000
     to_port   = 32767
     protocol  = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -37,11 +38,12 @@ module "eks" {
       name                          = "${var.cluster_name}--small"
       instance_type                 = "t2.small"
       asg_desired_capacity          = 2
-      additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
     },
   ]
+  worker_additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
 
   map_users                            = var.map_users
+  #write_kubeconfig = false
 }
 
 data "aws_eks_cluster" "cluster" {
