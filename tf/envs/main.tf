@@ -7,6 +7,17 @@ variable "env" {
   description = "Environment: unstable, demo, ..."
 }
 
+variable "map_users" {
+  default = [
+    {
+      userarn  = "arn:aws:iam::540790251273:user/GiorgioSironi"
+      username = "GiorgioSironi"
+      groups   = ["system:masters"]
+    },
+  ]
+  description = "IAM users that can access the cluster"
+}
+
 provider "aws" {
   region = var.region
 }
@@ -32,6 +43,7 @@ module "kubernetes_cluster" {
   env = var.env
   vpc_id = module.kubernetes_vpc.vpc_id
   subnets = module.kubernetes_vpc.subnets
+  map_users = var.map_users
 }
 
 provider "local" {

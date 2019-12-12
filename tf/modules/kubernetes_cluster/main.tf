@@ -12,6 +12,10 @@ variable "vpc_id" {
 variable "subnets" {
 }
 
+variable "map_users" {
+  description = "IAM users that can access the cluster. See https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/examples/basic/variables.tf#L32"
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   cluster_name = var.cluster_name
@@ -26,7 +30,7 @@ module "eks" {
     },
   ]
 
-#  map_users                            = var.map_users
+  map_users                            = var.map_users
 }
 
 #data "aws_eks_cluster" "cluster" {
