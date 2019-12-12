@@ -13,7 +13,7 @@ resource "aws_security_group" "node_port_services_public_access" {
 
 module "eks" {
   # master, unreleased 8.x
-  source = "git@github.com:terraform-aws-modules/terraform-aws-eks.git?ref=11d8ee8631ec2bb98d85295d814a4dc738026704"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-eks.git?ref=11d8ee8631ec2bb98d85295d814a4dc738026704"
   # TODO: transition to the following
   # when a 8.x release is available
   #source  = "terraform-aws-modules/eks/aws"
