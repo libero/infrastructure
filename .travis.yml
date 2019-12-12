@@ -40,3 +40,8 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+  - provider: script
+    script: cd envs/franklin && rm -rf .terraform && ../../terraform init --backend-config="key=franklin/terraform.tfstate" -input=false && ../../terraform apply /tmp/franklin.plan
+    skip_cleanup: true
+    on:
+      branch: master
