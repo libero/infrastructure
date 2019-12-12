@@ -63,22 +63,23 @@ $ export AWS_PROFILE=libero
 Create a new environment (here named `unstable`):
 
 ```
-ENVIRONMENT_NAME=unstable
-scripts/generate-keypair.sh $ENVIRONMENT_NAME
-cd tf/
-./terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
-./terraform plan -var env=$ENVIRONMENT_NAME -out=my.plan
-./terraform apply my.plan
+cd tf/envs/
+mkdir $ENVIRONMENT_NAME
+echo "env = $ENVIRONMENT_NAME" > terraform.tfvars
+ln -s ../main.tf main.tf
+ln -s ../variables.tf variables.tf
+../../terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
+../../terraform plan -out=my.plan
+../../terraform apply my.plan
 ```
 
 ### Fetch current environment state
 To get the state of an existing environment (here named `unstable`):
 
 ```bash
-ENVIRONMENT_NAME=unstable
-cd tf/
+cd tf/envs/$ENVIRONMENT_NAME
 rm -rf .terraform
-./terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
+../../terraform init --backend-config="key=$ENVIRONMENT_NAME/terraform.tfstate"
 ```
 
 ### Update an environment
@@ -86,18 +87,11 @@ rm -rf .terraform
 Update the environment:
 
 ```bash
-./terraform plan -out=my.plan
-./terraform apply my.plan
+../../terraform plan -out=my.plan
+../../terraform apply my.plan
 ```
 
 Note: normally `apply` should not be executed, as it's done via CI on merge.
-
-### SSH into instance
-SSH into an instance:
-
-```bash
-ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(./terraform output single_node_ip)
-```
 
 ### Output resource information
 
@@ -110,10 +104,28 @@ gpg --import libero-admin.key
 You can then use the `./terraform output` commmand to extract resource information. For example, to dump the HTTPS certificate:
 
 ```bash
+# legacy
 ./terraform output https_certificate_pem
+# current (empty at the moment)
+../../terraform output
 ```
 
 An environment named `test` is reserved for destruction, creation and any other exploration.
+
+### SSH into instance (legacy)
+SSH into an instance:
+
+```bash
+ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(./terraform output single_node_ip)
+```
+
+### Kubectl access
+
+```
+aws eks update-kubeconfig libero-eks--franklin
+kubectl version
+kubectl get pods
+```
 
 ## Admin
 
