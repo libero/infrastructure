@@ -1,19 +1,3 @@
-variable "cluster_name" {
-}
-
-variable "env" {
-}
-
-variable "vpc_id" {
-}
-
-variable "subnets" {
-}
-
-variable "map_users" {
-  description = "IAM users that can access the cluster. See https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/examples/basic/variables.tf#L32"
-}
-
 resource "aws_security_group" "node_port_services_public_access" {
   description = "Allows access to NodePort Services from the public internet"
   name_prefix = "node_port_services_public_access"

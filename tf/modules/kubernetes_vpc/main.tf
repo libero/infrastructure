@@ -1,4 +1,3 @@
-
 data "aws_availability_zones" "available" {
 }
 
@@ -21,12 +20,4 @@ module "vpc" {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
-}
-
-output "vpc_id" {
-  value = module.vpc.vpc_id
-}
-
-output "subnets" {
-  value = module.vpc.public_subnets
 }
