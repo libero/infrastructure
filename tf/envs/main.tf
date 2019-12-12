@@ -7,11 +7,6 @@ variable "env" {
   description = "Environment: unstable, demo, ..."
 }
 
-variable "vpc_id" {
-  default = "vpc-e121f79b"
-  description = "Default VPC for us-east-1 on Libero account"
-}
-
 provider "aws" {
   region = var.region
 }
@@ -35,7 +30,7 @@ module "kubernetes_cluster" {
   source = "../../modules/kubernetes_cluster"
   cluster_name = "libero-eks--${var.env}"
   env = var.env
-  vpc_id = var.vpc_id
+  vpc_id = module.kubernetes_vpc.vpc_id
   subnets = module.kubernetes_vpc.subnets
 }
 
