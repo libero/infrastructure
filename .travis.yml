@@ -24,9 +24,9 @@ script:
   - ./terraform plan -var env=unstable -out /tmp/unstable.plan
   - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
   - ./terraform plan -var env=demo -out /tmp/demo.plan
-  - cd envs/buzz
-  - rm -rf .terraform && $TERRAFORM init --backend-config="key=buzz/terraform.tfstate" -input=false
-  - $TERRAFORM plan -out /tmp/buzz.plan
+  - cd envs/franklin
+  - rm -rf .terraform && $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
+  - $TERRAFORM plan -out /tmp/franklin.plan
   - cd -
 
 deploy:
