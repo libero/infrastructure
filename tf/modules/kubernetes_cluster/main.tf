@@ -43,6 +43,11 @@ module "eks" {
   worker_additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
 
   map_users                            = var.map_users
+
+  # TODO: remove as obsolete when upgrading to 8.x
+  # https://github.com/terraform-aws-modules/terraform-aws-eks/blob/11d8ee8631ec2bb98d85295d814a4dc738026704/CHANGELOG.md#v8---2019--
+  write_aws_auth_config = false
+  # end TODO
   write_kubeconfig = false
 }
 
