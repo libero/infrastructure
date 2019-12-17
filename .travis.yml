@@ -3,6 +3,7 @@ language: bash
 env:
   global:
     - TERRAFORM_VERSION=0.12.17
+    - TERRAFORM=../../terraform
 
 branches:
   only:
@@ -23,6 +24,10 @@ script:
   - ./terraform plan -var env=unstable -out /tmp/unstable.plan
   - rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false
   - ./terraform plan -var env=demo -out /tmp/demo.plan
+  - cd envs/franklin
+  - rm -rf .terraform && $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
+  - $TERRAFORM plan -out /tmp/franklin.plan
+  - cd -
 
 deploy:
   - provider: script
@@ -35,3 +40,8 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+  - provider: script
+    script: cd envs/franklin && rm -rf .terraform && ../../terraform init --backend-config="key=franklin/terraform.tfstate" -input=false && ../../terraform apply /tmp/franklin.plan
+    skip_cleanup: true
+    on:
+      branch: master

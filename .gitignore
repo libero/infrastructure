@@ -1,3 +1,7 @@
 /tf/.terraform
 /tf/terraform
 /tf/*.plan
+/tf/envs/*/.terraform/
+/tf/envs/*/*.plan
+/tf/envs/*/config-map-aws-auth_*.yaml
+/tf/envs/*/kubeconfig_*
