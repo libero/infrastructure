@@ -42,7 +42,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: scripts/terraform-apply.sh franklin && aws eks update-kubeconfig libero-eks--franklin && ./helm ls
+    script: ../scripts/terraform-apply.sh franklin && aws eks update-kubeconfig libero-eks--franklin && ./helm ls
     skip_cleanup: true
     on:
       branch: master
