@@ -121,10 +121,21 @@ ssh -i "tf/single-node--${ENVIRONMENT_NAME}.key" ubuntu@$(./terraform output sin
 
 ### Kubectl access
 
+Assuming you have AWS credentials setup to access the Libero account, the `aws` cli can generate your `kubectl` authentication configuration for the cluster:
+
 ```
 aws eks update-kubeconfig libero-eks--franklin
 kubectl version
 kubectl get pods
+```
+
+### Helm access
+
+Helm uses the same authentication as `kubectl`. Use the Helm version provided by this repository.
+
+```
+scripts/download-helm.sh
+helm ls
 ```
 
 ## Admin
