@@ -15,6 +15,11 @@ variable "map_users" {
       groups   = ["system:masters"]
     },
     {
+      userarn  = "arn:aws:iam::540790251273:user/ChrisWilkinson"
+      username = "ChrisWilkinson"
+      groups   = ["system:masters"]
+    },
+    {
       userarn  = "arn:aws:iam::540790251273:user/TravisCI"
       username = "TravisCI"
       groups   = ["system:masters"]
