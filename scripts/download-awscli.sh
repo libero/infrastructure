@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-pip install awscli
+pip3 install awscli
