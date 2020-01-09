@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-snap install aws-cli
+snap install --classic aws-cli
 aws --version
