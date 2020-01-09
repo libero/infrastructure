@@ -15,7 +15,7 @@ before_install:
   - bash -c '[ "$(head -n 1 tf/registration--unstable.key)" == "-----BEGIN RSA PRIVATE KEY-----" ]'
   - scripts/download-terraform.sh
   - scripts/download-helm.sh
-  - scripts/download-awscli.sh
+  - sudo scripts/download-awscli.sh
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt-get install ansible
 
