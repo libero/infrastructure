@@ -14,6 +14,7 @@ before_install:
   - TRAVIS_KEY=$encrypted_656a7d042f6e_key TRAVIS_IV=$encrypted_656a7d042f6e_iv .scripts/travis/git-crypt-unlock.sh travis-ci.key.enc
   - bash -c '[ "$(head -n 1 tf/registration--unstable.key)" == "-----BEGIN RSA PRIVATE KEY-----" ]'
   - scripts/download-terraform.sh
+  - scripts/download-helm.sh
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt-get install ansible
 
@@ -41,7 +42,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: cd envs/franklin && rm -rf .terraform && ../../terraform init --backend-config="key=franklin/terraform.tfstate" -input=false && ../../terraform apply /tmp/franklin.plan
+    script: ../scripts/terraform-apply.sh franklin && aws eks update-kubeconfig --name libero-eks--franklin && ../helm ls
     skip_cleanup: true
     on:
       branch: master
