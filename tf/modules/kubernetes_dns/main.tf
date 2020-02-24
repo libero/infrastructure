@@ -28,3 +28,39 @@ resource "aws_iam_role_policy" "dns_update" {
 }
 POLICY
 }
+
+resource "helm_release" "external_dns" {
+  name = "external-dns"
+  chart = "stable/external-dns"
+  namespace = var.namespace
+
+  set {
+    name  = "sources[0]"
+    value = "service"
+  }
+
+  set {
+    name  = "policy"
+    value = "sync"
+  }
+
+  set {
+    name  = "provider"
+    value = "aws"
+  }
+
+  set {
+    name  = "aws.zoneType"
+    value = "public"
+  }
+
+  set {
+    name  = "zoneIdFilters[0]"
+    value = var.hosted_zone_id
+  }
+
+  set {
+    name  = "txtOwnerId"
+    value = var.cluster_name
+  }
+}
