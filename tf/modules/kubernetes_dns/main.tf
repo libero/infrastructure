@@ -65,6 +65,6 @@ resource "helm_release" "external_dns" {
 
   set {
     name  = "txtOwnerId"
-    value = var.cluster_name
+    value = var.owner_id
   }
 }
