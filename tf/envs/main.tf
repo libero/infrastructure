@@ -2,6 +2,14 @@ provider "aws" {
   region = var.region
 }
 
+provider "kubernetes" {
+  host = module.kubernetes_cluster.kubernetes_config.host
+  cluster_ca_certificate = module.kubernetes_cluster.kubernetes_config.cluster_ca_certificate
+  token =  module.kubernetes_cluster.kubernetes_config.token
+  load_config_file       = false
+  version                = "~> 1.10"
+}
+
 provider "helm" {
   kubernetes {
     host = module.kubernetes_cluster.kubernetes_config.host
