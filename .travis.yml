@@ -2,7 +2,6 @@ language: bash
 
 env:
   global:
-    - TERRAFORM_VERSION=0.12.17
     - TERRAFORM=../../terraform
 
 branches:
