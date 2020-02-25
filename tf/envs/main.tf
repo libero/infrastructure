@@ -48,7 +48,6 @@ module "kubernetes_dns" {
   source = "../../modules/kubernetes_dns"
   role_name = module.kubernetes_cluster.worker_iam_role_name
   domain_name = "libero.pub"
-  namespace = "publisher"
   owner_id = "libero-eks--${var.env}"
 }
 

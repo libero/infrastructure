@@ -4,6 +4,7 @@ variable "domain_name" {
 
 variable "namespace" {
   description = "Kubernetes namespace, e.g. default"
+  default = "default"
 }
 
 variable "owner_id" {
