@@ -2,6 +2,24 @@ provider "aws" {
   region = var.region
 }
 
+provider "kubernetes" {
+  host = module.kubernetes_cluster.kubernetes_config.host
+  cluster_ca_certificate = module.kubernetes_cluster.kubernetes_config.cluster_ca_certificate
+  token =  module.kubernetes_cluster.kubernetes_config.token
+  load_config_file       = false
+  version                = "~> 1.10"
+}
+
+provider "helm" {
+  kubernetes {
+    host = module.kubernetes_cluster.kubernetes_config.host
+    cluster_ca_certificate = module.kubernetes_cluster.kubernetes_config.cluster_ca_certificate
+    token =  module.kubernetes_cluster.kubernetes_config.token
+    load_config_file = false
+  }
+  version = "~> 1.0"
+}
+
 terraform {
   backend "s3" {
     bucket = "libero-terraform"
@@ -24,6 +42,14 @@ module "kubernetes_cluster" {
   vpc_id = module.kubernetes_vpc.vpc_id
   subnets = module.kubernetes_vpc.subnets
   map_users = var.map_users
+}
+
+module "kubernetes_dns" {
+  source = "../../modules/kubernetes_dns"
+  role_name = module.kubernetes_cluster.worker_iam_role_name
+  domain_name = "libero.pub"
+  namespace = "publisher"
+  owner_id = "libero-eks--${var.env}"
 }
 
 provider "local" {
