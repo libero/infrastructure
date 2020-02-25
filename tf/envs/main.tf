@@ -2,10 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-data "aws_route53_zone" "main" {
-  name = "libero.pub."
-}
-
 provider "helm" {
   kubernetes {
     host = module.kubernetes_cluster.kubernetes_config.host
@@ -43,7 +39,7 @@ module "kubernetes_cluster" {
 module "kubernetes_dns" {
   source = "../../modules/kubernetes_dns"
   role_name = module.kubernetes_cluster.worker_iam_role_name
-  hosted_zone_id = data.aws_route53_zone.main.zone_id
+  domain_name = "libero.pub"
   namespace = "publisher"
   cluster_name = "libero-eks--${var.env}"
 }

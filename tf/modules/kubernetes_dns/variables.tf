@@ -2,8 +2,8 @@ variable "cluster_name" {
   description = "The EKS cluster name this VPC will support"
 }
 
-variable "hosted_zone_id" {
-  description = "ID of the hosted zone, e.g. Z111111QQQQQQQ"
+variable "domain_name" {
+  description = "Domain name, e.g. example.com"
 }
 
 variable "namespace" {
