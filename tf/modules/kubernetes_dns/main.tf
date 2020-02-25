@@ -36,6 +36,7 @@ POLICY
 resource "helm_release" "external_dns" {
   name = "external-dns"
   chart = "stable/external-dns"
+  version = "2.19.0"
   namespace = var.namespace
 
   set {
