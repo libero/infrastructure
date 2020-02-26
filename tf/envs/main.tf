@@ -55,3 +55,18 @@ module "kubernetes_dns" {
 provider "local" {
   version = "~> 1.2"
 }
+
+resource "aws_db_subnet_group" "publisher__test_rds_article_store_postgresql" {
+  subnet_ids = module.kubernetes_vpc.subnets
+}
+
+resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
+  allocated_storage = 20
+  engine = "postgres"
+  engine_version = "11.5"
+  instance_class = "db.t2.micro"
+  name = "articlestore"
+  username = "articlestore"
+  password = "foobarbaz"
+  db_subnet_group_name = aws_db_subnet_group.publisher__test_rds_article_store_postgresql.name
+}
