@@ -1,10 +1,10 @@
-resource "aws_db_subnet_group" "rds_subnet_group" {
-  subnet_ids = var.subnet_ids
-}
-
 resource "random_password" "db_password" {
   length = 50
   override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+resource "aws_db_subnet_group" "subnet_group" {
+  subnet_ids = var.subnet_ids
 }
 
 resource "aws_security_group" "allow_internal_traffic" {
@@ -25,9 +25,9 @@ resource "aws_security_group_rule" "allow_internal_traffic_ingress" {
 resource "aws_security_group_rule" "allow_internal_traffic_egress" {
   type = "egress"
   security_group_id = aws_security_group.allow_internal_traffic.id
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
+  from_port = 0
+  to_port = 0
+  protocol = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 }
 
@@ -41,6 +41,6 @@ resource "aws_db_instance" "db_instance" {
   name = var.database_name
   username = var.username
   password = random_password.db_password.result
-  db_subnet_group_name = aws_db_subnet_group.rds_subnet_group.name
+  db_subnet_group_name = aws_db_subnet_group.subnet_group.name
   vpc_security_group_ids = [aws_security_group.allow_internal_traffic.id]
 }
