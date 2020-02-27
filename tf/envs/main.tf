@@ -74,3 +74,16 @@ resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
   password = random_password.publisher__test_rds_article_store_postgresql_password.result
   db_subnet_group_name = aws_db_subnet_group.publisher__test_rds_article_store_postgresql.name
 }
+
+resource "kubernetes_secret" "publisher__test_rds_article_store_postgresql" {
+  metadata {
+    name = "publisher--test-rds-article-store-postgresql"
+  }
+  data = {
+    postgresql-database = aws_db_instance.publisher__test_rds_article_store_postgresql.name
+    postgresql-username = aws_db_instance.publisher__test_rds_article_store_postgresql.username
+    postgresql-password = aws_db_instance.publisher__test_rds_article_store_postgresql.password
+    postgresql-host = aws_db_instance.publisher__test_rds_article_store_postgresql.address
+    postgresql-port = aws_db_instance.publisher__test_rds_article_store_postgresql.port
+  }
+}
