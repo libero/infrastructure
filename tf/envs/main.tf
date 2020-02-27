@@ -64,7 +64,27 @@ resource "random_password" "publisher__test_rds_article_store_postgresql_passwor
   length = 50
 }
 
+resource "aws_security_group" "allow_internal_traffic_postgresql" {
+  name = "allow_internal_traffic_postgresql"
+  description = "Allow interal inbound Postgres traffic"
+  vpc_id = module.kubernetes_vpc.vpc_id
+  ingress {
+    from_port = 5432
+    to_port = 5432
+    protocol = "tcp"
+    security_groups = [module.kubernetes_cluster.worker_security_group_id]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
+  identifier = "publisher-test-rds-article-store"
+  skip_final_snapshot = true
   allocated_storage = 20
   engine = "postgres"
   engine_version = "11.5"
@@ -73,6 +93,7 @@ resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
   username = "articlestore"
   password = random_password.publisher__test_rds_article_store_postgresql_password.result
   db_subnet_group_name = aws_db_subnet_group.publisher__test_rds_article_store_postgresql.name
+  vpc_security_group_ids = [aws_security_group.allow_internal_traffic_postgresql.id]
 }
 
 resource "kubernetes_secret" "publisher__test_rds_article_store_postgresql" {

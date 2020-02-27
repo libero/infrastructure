@@ -3,6 +3,11 @@ output "worker_iam_role_name" {
   description = "Name of the role, e.g. Accounting-Role"
 }
 
+output "worker_security_group_id" {
+  value = module.eks.worker_security_group_id
+  description = "Security group ID attached to the EKS workers, e.g. sg-018caeb91524d23ff"
+}
+
 output "kubernetes_config" {
   value = {
     host = data.aws_eks_cluster.cluster.endpoint
