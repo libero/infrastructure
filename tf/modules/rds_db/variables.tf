@@ -11,7 +11,7 @@ variable "security_group_id" {
 }
 
 variable "subnet_ids" {
-  description = "List of the public subnets in the VPC"
+  description = "List of the public subnets in the VPC, e.g. subnet-09a4fcfc7693064fa, subnet-029a41f3fc89b5958"
 }
 
 variable "username" {
