@@ -60,6 +60,10 @@ resource "aws_db_subnet_group" "publisher__test_rds_article_store_postgresql" {
   subnet_ids = module.kubernetes_vpc.subnets
 }
 
+resource "random_password" "publisher__test_rds_article_store_postgresql_password" {
+  length = 50
+}
+
 resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
   allocated_storage = 20
   engine = "postgres"
@@ -67,6 +71,6 @@ resource "aws_db_instance" "publisher__test_rds_article_store_postgresql" {
   instance_class = "db.t2.micro"
   name = "articlestore"
   username = "articlestore"
-  password = "foobarbaz"
+  password = random_password.publisher__test_rds_article_store_postgresql_password.result
   db_subnet_group_name = aws_db_subnet_group.publisher__test_rds_article_store_postgresql.name
 }
