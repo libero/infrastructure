@@ -4,6 +4,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 resource "random_password" "db_password" {
   length = 50
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
 resource "aws_security_group" "allow_internal_traffic" {
