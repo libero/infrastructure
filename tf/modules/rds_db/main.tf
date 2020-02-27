@@ -11,18 +11,24 @@ resource "aws_security_group" "allow_internal_traffic" {
   name = "allow_internal_traffic_${var.database_id}"
   description = "Allow interal inbound traffic"
   vpc_id = var.vpc_id
-  ingress {
-    from_port = 5432
-    to_port = 5432
-    protocol = "tcp"
-    security_groups = [var.security_group_id]
-  }
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+}
+
+resource "aws_security_group_rule" "allow_internal_traffic_ingress" {
+  type = "ingress"
+  security_group_id = aws_security_group.allow_internal_traffic.id
+  from_port = aws_db_instance.db_instance.port
+  to_port = aws_db_instance.db_instance.port
+  protocol = "tcp"
+  source_security_group_id = var.security_group_id
+}
+
+resource "aws_security_group_rule" "allow_internal_traffic_egress" {
+  type = "egress"
+  security_group_id = aws_security_group.allow_internal_traffic.id
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 }
 
 resource "aws_db_instance" "db_instance" {
