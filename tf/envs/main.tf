@@ -56,7 +56,7 @@ module "publisher__test_rds_article_store" {
   source = "../../modules/rds_db"
   vpc_id = module.kubernetes_vpc.vpc_id
   subnet_ids = module.kubernetes_vpc.subnets
-  security_group_id = module.kubernetes_cluster.worker_security_group_id
+  accessing_security_group_id = module.kubernetes_cluster.worker_security_group_id
   database_id = "publisher-test-rds-article-store"
   database_name = "article_store"
   username = "articlestore"

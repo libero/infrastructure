@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "allow_internal_traffic_ingress" {
   from_port = aws_db_instance.db_instance.port
   to_port = aws_db_instance.db_instance.port
   protocol = "tcp"
-  source_security_group_id = var.security_group_id
+  source_security_group_id = var.accessing_security_group_id
 }
 
 resource "aws_security_group_rule" "allow_internal_traffic_egress" {

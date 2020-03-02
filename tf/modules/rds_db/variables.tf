@@ -6,8 +6,8 @@ variable "database_id" {
   description = "Name of the RDS instance to create, e.g. my-database"
 }
 
-variable "security_group_id" {
-  description = "Security group ID, e.g. sg-018caeb91524d23ff"
+variable "accessing_security_group_id" {
+  description = "Security group ID of the accessing application, e.g. sg-018caeb91524d23ff"
 }
 
 variable "subnet_ids" {
