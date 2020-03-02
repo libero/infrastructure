@@ -25,13 +25,22 @@ resource "random_password" "db_password" {
 }
 
 resource "aws_db_subnet_group" "db_instance" {
+  tags = {
+    Name = "rds_${var.database_id}"
+  }
+  description = "Contains RDS instance ${var.database_id}"
   subnet_ids = var.subnet_ids
 }
 
 resource "aws_security_group" "db_instance" {
-  name = "allow_internal_traffic_${var.database_id}"
-  description = "Allow internal inbound traffic"
+  tags = {
+    Name = "rds_${var.database_id}"
+  }
+  description = "Allow internal inbound, and all external, traffic to RDS instance ${var.database_id}"
   vpc_id = var.vpc_id
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "db_instance_ingress" {
