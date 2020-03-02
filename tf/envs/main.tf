@@ -52,7 +52,7 @@ module "kubernetes_dns" {
   owner_id = "libero-eks--${var.env}"
 }
 
-module "publisher__test_rds_article_store_postgresql" {
+module "publisher__test_rds_article_store" {
   source = "../../modules/rds_db"
   vpc_id = module.kubernetes_vpc.vpc_id
   subnet_ids = module.kubernetes_vpc.subnets
@@ -71,10 +71,10 @@ resource "kubernetes_secret" "publisher__test_rds_article_store_postgresql" {
     name = "publisher--test-rds-article-store-postgresql"
   }
   data = {
-    postgresql-database = module.publisher__test_rds_article_store_postgresql.database
-    postgresql-username = module.publisher__test_rds_article_store_postgresql.username
-    postgresql-password = module.publisher__test_rds_article_store_postgresql.password
-    postgresql-host = module.publisher__test_rds_article_store_postgresql.hostname
-    postgresql-port = module.publisher__test_rds_article_store_postgresql.port
+    postgresql-database = module.publisher__test_rds_article_store.database
+    postgresql-username = module.publisher__test_rds_article_store.username
+    postgresql-password = module.publisher__test_rds_article_store.password
+    postgresql-host = module.publisher__test_rds_article_store.hostname
+    postgresql-port = module.publisher__test_rds_article_store.port
   }
 }
