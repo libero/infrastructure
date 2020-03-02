@@ -3,28 +3,28 @@ resource "random_password" "db_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-resource "aws_db_subnet_group" "subnet_group" {
+resource "aws_db_subnet_group" "db_instance" {
   subnet_ids = var.subnet_ids
 }
 
-resource "aws_security_group" "allow_internal_traffic" {
+resource "aws_security_group" "db_instance" {
   name = "allow_internal_traffic_${var.database_id}"
   description = "Allow internal inbound traffic"
   vpc_id = var.vpc_id
 }
 
-resource "aws_security_group_rule" "allow_internal_traffic_ingress" {
+resource "aws_security_group_rule" "db_instance_ingress" {
   type = "ingress"
-  security_group_id = aws_security_group.allow_internal_traffic.id
+  security_group_id = aws_security_group.db_instance.id
   from_port = aws_db_instance.db_instance.port
   to_port = aws_db_instance.db_instance.port
   protocol = "tcp"
   source_security_group_id = var.accessing_security_group_id
 }
 
-resource "aws_security_group_rule" "allow_internal_traffic_egress" {
+resource "aws_security_group_rule" "db_instance_egress" {
   type = "egress"
-  security_group_id = aws_security_group.allow_internal_traffic.id
+  security_group_id = aws_security_group.db_instance.id
   from_port = 0
   to_port = 0
   protocol = "-1"
@@ -41,6 +41,6 @@ resource "aws_db_instance" "db_instance" {
   name = var.database_name
   username = var.username
   password = random_password.db_password.result
-  db_subnet_group_name = aws_db_subnet_group.subnet_group.name
-  vpc_security_group_ids = [aws_security_group.allow_internal_traffic.id]
+  db_subnet_group_name = aws_db_subnet_group.db_instance.name
+  vpc_security_group_ids = [aws_security_group.db_instance.id]
 }
