@@ -58,8 +58,6 @@ module "publisher__test_rds_article_store" {
   subnet_ids = module.kubernetes_vpc.subnets
   accessing_security_group_id = module.kubernetes_cluster.worker_security_group_id
   database_id = "publisher-test-rds-article-store"
-  database_name = "article_store"
-  username = "articlestore"
 }
 
 provider "local" {

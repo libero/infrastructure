@@ -1,6 +1,27 @@
+resource "random_pet" "db_name" {
+  length = 2
+  prefix = "database"
+  separator = ""
+  keepers = {
+    database_id = var.database_id
+  }
+}
+
+resource "random_pet" "db_user" {
+  length = 2
+  prefix = "user"
+  separator = ""
+  keepers = {
+    db_name = random_pet.db_name.id
+  }
+}
+
 resource "random_password" "db_password" {
   length = 50
   override_special = "!#$%&*()-_=+[]{}<>:?"
+  keepers = {
+    db_user = random_pet.db_user.id
+  }
 }
 
 resource "aws_db_subnet_group" "db_instance" {
@@ -38,8 +59,8 @@ resource "aws_db_instance" "db_instance" {
   engine = "postgres"
   engine_version = "11.5"
   instance_class = "db.t2.micro"
-  name = var.database_name
-  username = var.username
+  name = random_pet.db_name.id
+  username = random_pet.db_user.id
   password = random_password.db_password.result
   db_subnet_group_name = aws_db_subnet_group.db_instance.name
   vpc_security_group_ids = [aws_security_group.db_instance.id]
