@@ -9,7 +9,7 @@ resource "aws_db_subnet_group" "subnet_group" {
 
 resource "aws_security_group" "allow_internal_traffic" {
   name = "allow_internal_traffic_${var.database_id}"
-  description = "Allow interal inbound traffic"
+  description = "Allow internal inbound traffic"
   vpc_id = var.vpc_id
 }
 
