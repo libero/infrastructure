@@ -56,7 +56,7 @@ resource "aws_security_group_rule" "db_instance_egress" {
   type = "egress"
   security_group_id = aws_security_group.db_instance.id
   cidr_blocks = ["0.0.0.0/0"]
-  protocol = "-1"
+  protocol = "all"
   from_port = 0
   to_port = 0
 }
