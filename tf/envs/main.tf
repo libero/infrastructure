@@ -52,6 +52,27 @@ module "kubernetes_dns" {
   owner_id = "libero-eks--${var.env}"
 }
 
+module "publisher__test_rds_article_store" {
+  source = "../../modules/rds_db"
+  database_id = "publisher-test-rds-article-store"
+  accessing_security_group_id = module.kubernetes_cluster.worker_security_group_id
+  vpc_id = module.kubernetes_vpc.vpc_id
+  subnet_ids = module.kubernetes_vpc.subnets
+}
+
 provider "local" {
   version = "~> 1.2"
+}
+
+resource "kubernetes_secret" "publisher__test_rds_article_store_postgresql" {
+  metadata {
+    name = "publisher--test-rds-article-store-postgresql"
+  }
+  data = {
+    postgresql-database = module.publisher__test_rds_article_store.database
+    postgresql-username = module.publisher__test_rds_article_store.username
+    postgresql-password = module.publisher__test_rds_article_store.password
+    postgresql-host = module.publisher__test_rds_article_store.hostname
+    postgresql-port = module.publisher__test_rds_article_store.port
+  }
 }
