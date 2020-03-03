@@ -1,7 +1,7 @@
 resource "random_pet" "db_name" {
   length = 2
   prefix = "database"
-  separator = ""
+  separator = "_"
   keepers = {
     database_id = var.database_id
   }
@@ -10,7 +10,7 @@ resource "random_pet" "db_name" {
 resource "random_pet" "db_user" {
   length = 2
   prefix = "user"
-  separator = ""
+  separator = "_"
   keepers = {
     db_name = random_pet.db_name.id
   }
