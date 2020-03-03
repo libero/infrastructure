@@ -2,12 +2,12 @@ resource "aws_s3_bucket" "blog_articles_assets" {
   bucket = "${var.env}-blog-articles-assets"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
 resource "aws_s3_bucket_policy" "blog_articles_assets" {
-  bucket = "${aws_s3_bucket.blog_articles_assets.id}"
+  bucket = aws_s3_bucket.blog_articles_assets.id
 
   policy = <<POLICY
 {
@@ -34,16 +34,16 @@ resource "aws_iam_user" "blog_articles" {
 }
 
 resource "aws_iam_access_key" "blog_articles" {
-  user    = "${aws_iam_user.blog_articles.name}"
-  pgp_key = "${file("libero-admin.pub")}"
+  user    = aws_iam_user.blog_articles.name
+  pgp_key = file("libero-admin.pub")
 }
 
 output "credentials_blog_articles_id" {
-  value = "${aws_iam_access_key.blog_articles.id}"
+  value = aws_iam_access_key.blog_articles.id
 }
 
 output "credentials_blog_articles_secret" {
-  value = "${aws_iam_access_key.blog_articles.encrypted_secret}"
+  value = aws_iam_access_key.blog_articles.encrypted_secret
 }
 
 resource "aws_iam_policy" "blog_articles_s3_write" {
@@ -78,6 +78,6 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "blog_articles_s3_write" {
-  user       = "${aws_iam_user.blog_articles.name}"
-  policy_arn = "${aws_iam_policy.blog_articles_s3_write.arn}"
+  user       = aws_iam_user.blog_articles.name
+  policy_arn = aws_iam_policy.blog_articles_s3_write.arn
 }

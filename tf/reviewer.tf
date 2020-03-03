@@ -2,12 +2,12 @@ resource "aws_s3_bucket" "reviewer_storybook" {
   bucket = "${var.env}-reviewer-storybook"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
 resource "aws_s3_bucket_policy" "reviewer_storybook" {
-  bucket = "${aws_s3_bucket.reviewer_storybook.id}"
+  bucket = aws_s3_bucket.reviewer_storybook.id
 
   policy = <<POLICY
 {
@@ -65,19 +65,19 @@ resource "aws_iam_user" "reviewer_travis_ci" {
 }
 
 resource "aws_iam_access_key" "reviewer_travis_ci" {
-  user = "${aws_iam_user.reviewer_travis_ci.name}"
-  pgp_key = "${file("libero-admin.pub")}"
+  user = aws_iam_user.reviewer_travis_ci.name
+  pgp_key = file("libero-admin.pub")
 }
 
 output "credentials_reviewer_travis_ci_id" {
-    value = "${aws_iam_access_key.reviewer_travis_ci.id}"
+    value = aws_iam_access_key.reviewer_travis_ci.id
 }
 
 output "credentials_reviewer_travis_ci_secret" {
-    value = "${aws_iam_access_key.reviewer_travis_ci.encrypted_secret}"
+    value = aws_iam_access_key.reviewer_travis_ci.encrypted_secret
 }
 
 resource "aws_iam_user_policy_attachment" "reviewer_travis_ci_s3" {
-  user       = "${aws_iam_user.reviewer_travis_ci.name}"
-  policy_arn = "${aws_iam_policy.reviewer_travis_ci_s3.arn}"
+  user       = aws_iam_user.reviewer_travis_ci.name
+  policy_arn = aws_iam_policy.reviewer_travis_ci_s3.arn
 }

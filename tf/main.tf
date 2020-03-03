@@ -4,10 +4,10 @@ resource "aws_instance" "single_node" {
   # https://cloud-images.ubuntu.com/locator/ec2/
   ami = "ami-0ac019f4fcb7cb7e6"
   instance_type = "t2.xlarge"
-  subnet_id = "${var.subnet_id}"
-  vpc_security_group_ids = ["${aws_security_group.single_node.id}"]
+  subnet_id = var.subnet_id
+  vpc_security_group_ids = [aws_security_group.single_node.id]
   associate_public_ip_address = true
-  key_name = "${aws_key_pair.single_node.key_name}"
+  key_name = aws_key_pair.single_node.key_name
   credit_specification {
     cpu_credits = "unlimited"
   }
@@ -27,11 +27,11 @@ resource "aws_instance" "single_node" {
 }
 
 output "single_node_ip" {
-  value = "${aws_instance.single_node.public_ip}"
+  value = aws_instance.single_node.public_ip
 }
 
 output "single_node_key_name" {
-  value = "${aws_instance.single_node.key_name}"
+  value = aws_instance.single_node.key_name
 }
 
 resource "aws_security_group" "single_node" {
@@ -83,7 +83,7 @@ resource "aws_security_group" "single_node" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = "${var.vpc_id}"
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "single-node--${var.env}--security-group"
@@ -92,7 +92,7 @@ resource "aws_security_group" "single_node" {
 
 resource "aws_key_pair" "single_node" {
   key_name   = "single-node--${var.env}"
-  public_key = "${data.local_file.public_key.content}"
+  public_key = data.local_file.public_key.content
 }
 
 data "local_file" "public_key" {
@@ -104,41 +104,41 @@ data "aws_route53_zone" "main" {
 }
 
 resource "aws_route53_record" "facade" {
-  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = "${var.env}.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = [aws_instance.single_node.public_ip]
 }
 
 resource "aws_route53_record" "dummy_api" {
-  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = "${var.env}--dummy-api.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = [aws_instance.single_node.public_ip]
 }
 
 resource "aws_route53_record" "pattern_library" {
-  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = "${var.env}--pattern-library.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = [aws_instance.single_node.public_ip]
 }
 
 resource "aws_route53_record" "api_gateway" {
-  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = "${var.env}--api-gateway.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = [aws_instance.single_node.public_ip]
 }
 
 resource "aws_route53_record" "jats_ingester" {
-  zone_id = "${data.aws_route53_zone.main.zone_id}"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = "${var.env}--jats-ingester.${data.aws_route53_zone.main.name}"
   type    = "A"
   ttl     = "60"
-  records = ["${aws_instance.single_node.public_ip}"]
+  records = [aws_instance.single_node.public_ip]
 }

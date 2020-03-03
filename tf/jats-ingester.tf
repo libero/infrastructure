@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "jats_ingester_incoming" {
   bucket = "${var.env}-jats-ingester-incoming"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "jats_ingester_expanded" {
   acl    = "public-read"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_s3_bucket" "jats_ingester_completed_tasks" {
   bucket = "${var.env}-jats-ingester-completed-tasks"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
@@ -27,12 +27,12 @@ resource "aws_s3_bucket" "jats_ingester_logs" {
   bucket = "${var.env}-jats-ingester-logs"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
 resource "aws_s3_bucket_policy" "jats_ingester_expanded" {
-  bucket = "${aws_s3_bucket.jats_ingester_expanded.id}"
+  bucket = aws_s3_bucket.jats_ingester_expanded.id
 
   policy = <<POLICY
 {
@@ -59,16 +59,16 @@ resource "aws_iam_user" "jats_ingester" {
 }
 
 resource "aws_iam_access_key" "jats_ingester" {
-  user = "${aws_iam_user.jats_ingester.name}"
-  pgp_key = "${file("libero-admin.pub")}"
+  user = aws_iam_user.jats_ingester.name
+  pgp_key = file("libero-admin.pub")
 }
 
 output "credentials_jats_ingester_id" {
-    value = "${aws_iam_access_key.jats_ingester.id}"
+    value = aws_iam_access_key.jats_ingester.id
 }
 
 output "credentials_jats_ingester_secret" {
-    value = "${aws_iam_access_key.jats_ingester.encrypted_secret}"
+    value = aws_iam_access_key.jats_ingester.encrypted_secret
 }
 
 resource "aws_iam_policy" "jats_ingester_s3_write" {
@@ -103,6 +103,6 @@ EOF
 }
 
 resource "aws_iam_user_policy_attachment" "jats_ingester_s3_write" {
-  user       = "${aws_iam_user.jats_ingester.name}"
-  policy_arn = "${aws_iam_policy.jats_ingester_s3_write.arn}"
+  user       = aws_iam_user.jats_ingester.name
+  policy_arn = aws_iam_policy.jats_ingester_s3_write.arn
 }
