@@ -34,6 +34,11 @@ variable "map_users" {
       username = "TravisCI"
       groups   = ["system:masters"]
     },
+    {
+      userarn  = "arn:aws:iam::540790251273:user/GithubActions"
+      username = "GithubActions"
+      groups   = ["system:masters"]
+    },
   ]
   description = "IAM users that can access the cluster"
 }
