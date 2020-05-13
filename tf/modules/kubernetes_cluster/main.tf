@@ -24,6 +24,8 @@ module "eks" {
       name                          = "${var.cluster_name}--small"
       instance_type                 = "t2.small"
       asg_desired_capacity          = 2
+      # total of 10000 dead containers per cluster, last 200 deployments retained for 1 week (expressed in minutes)
+      kubelet_extra_args            = "--maximum-dead-containers=10000 --maximum-dead-containers-per-container=200 --minimum-container-ttl-duration=10080"
     },
   ]
   worker_additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
