@@ -52,6 +52,12 @@ module "kubernetes_dns" {
   owner_id = "libero-eks--${var.env}"
 }
 
+module "kubernetes_logs" {
+  source = "../../modules/kubernetes_logs"
+  cluster_name = "libero-eks--${var.env}"
+  role_name = module.kubernetes_cluster.worker_iam_role_name
+}
+
 module "publisher__test_rds_article_store" {
   source = "../../modules/rds_db"
   database_id = "publisher-test-rds-article-store"
