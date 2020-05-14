@@ -54,6 +54,7 @@ module "kubernetes_dns" {
 
 module "kubernetes_logs" {
   source = "../../modules/kubernetes_logs"
+  cluster_name = "libero-eks--${var.env}"
   role_name = module.kubernetes_cluster.worker_iam_role_name
 }
 
