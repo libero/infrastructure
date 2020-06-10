@@ -10,8 +10,6 @@ branches:
     - /^latest\/.+$/
 
 before_install:
-  - TRAVIS_KEY=$encrypted_656a7d042f6e_key TRAVIS_IV=$encrypted_656a7d042f6e_iv .scripts/travis/git-crypt-unlock.sh travis-ci.key.enc
-  - bash -c '[ "$(head -n 1 tf/registration--unstable.key)" == "-----BEGIN RSA PRIVATE KEY-----" ]'
   - scripts/download-terraform.sh
   - scripts/download-helm.sh
   - sudo scripts/download-awscli.sh
