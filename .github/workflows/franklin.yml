@@ -24,7 +24,7 @@ jobs:
       - name: Plan
         run: |
           cd tf/envs/franklin
-          rm -rf .terraform && $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
+          $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
           $TERRAFORM plan -out /tmp/franklin.plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -33,7 +33,12 @@ jobs:
 
       - name: Apply
         run: |
+          cd tf/envs/franklin
           $TERRAFORM apply /tmp/franklin.plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
           
       - name: Kubernetes smoke tests
         run: |
