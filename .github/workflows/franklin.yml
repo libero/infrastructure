@@ -22,11 +22,11 @@ jobs:
           scripts/download-terraform.sh
 
       - name: Plan
-      - run: |
+        run: |
           cd tf/envs/franklin
           rm -rf .terraform && $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
           $TERRAFORM plan -out /tmp/franklin.plan
-      - env:
+        env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
