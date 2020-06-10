@@ -32,16 +32,6 @@ script:
 
 deploy:
   - provider: script
-    script: rm -rf .terraform && ./terraform init --backend-config="key=unstable/terraform.tfstate" -input=false && ./terraform apply /tmp/unstable.plan
-    skip_cleanup: true
-    on:
-      branch: master
-  - provider: script
-    script: rm -rf .terraform && ./terraform init --backend-config="key=demo/terraform.tfstate" -input=false && ./terraform apply /tmp/demo.plan
-    skip_cleanup: true
-    on:
-      tags: true
-  - provider: script
     script: ../scripts/terraform-apply.sh franklin && aws eks update-kubeconfig --name libero-eks--franklin && ../helm ls
     skip_cleanup: true
     on:
