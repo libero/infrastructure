@@ -10,7 +10,7 @@ env:
 
 jobs:
 
-  apply:
+  terraform:
 
     runs-on: ubuntu-18.04
 
@@ -26,6 +26,19 @@ jobs:
           cd tf/envs/franklin
           rm -rf .terraform && $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
           $TERRAFORM plan -out /tmp/franklin.plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+
+      - name: Apply
+        run: |
+          $TERRAFORM apply /tmp/franklin.plan
+          
+      - name: Kubernetes smoke tests
+        run: |
+          aws eks update-kubeconfig --name libero-eks--franklin 
+          helm ls
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
