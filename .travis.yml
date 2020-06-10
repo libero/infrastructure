@@ -15,8 +15,6 @@ before_install:
   - scripts/download-terraform.sh
   - scripts/download-helm.sh
   - sudo scripts/download-awscli.sh
-  - sudo apt-add-repository --yes --update ppa:ansible/ansible
-  - sudo apt-get install ansible
 
 
 script:
