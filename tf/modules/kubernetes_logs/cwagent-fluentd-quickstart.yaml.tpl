@@ -315,7 +315,7 @@ resources:
           <filter **>
             @type concat
             key log
-            multiline_start_regexp /^\S/
+            multiline_start_regexp /^[^\s}]/
             separator ""
             flush_interval 5
             timeout_label @NORMAL
