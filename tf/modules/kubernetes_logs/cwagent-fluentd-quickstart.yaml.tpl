@@ -300,6 +300,17 @@ resources:
 
         <label @containers>
           <filter **>
+            @type parser
+            <parse>
+              @type json
+            </parse>
+            key_name log
+            reserve_data true
+            reserve_time true
+            emit_invalid_record_to_error false
+          </filter>
+          
+          <filter **>
             @type kubernetes_metadata
             @id filter_kube_metadata
           </filter>
