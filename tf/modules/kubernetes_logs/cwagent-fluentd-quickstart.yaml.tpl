@@ -305,7 +305,7 @@ resources:
               @type json
             </parse>
             key_name log
-            inject_key_prefix app.
+            inject_key_prefix app_
             reserve_data true
             reserve_time true
             emit_invalid_record_to_error false
