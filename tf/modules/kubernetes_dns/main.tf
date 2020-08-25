@@ -74,4 +74,9 @@ resource "helm_release" "external_dns" {
     name  = "txtOwnerId"
     value = var.owner_id
   }
+
+  set {
+    name = "txtPrefix"
+    value = "external-dns."
+  }
 }
