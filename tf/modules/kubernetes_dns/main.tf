@@ -51,6 +51,11 @@ resource "helm_release" "external_dns" {
   }
 
   set {
+    name  = "sources[1]"
+    value = "ingress"
+  }
+
+  set {
     name  = "policy"
     value = "sync"
   }
