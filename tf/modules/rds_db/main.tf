@@ -64,7 +64,7 @@ resource "aws_security_group_rule" "db_instance_egress" {
 resource "aws_db_instance" "db_instance" {
   identifier = var.database_id
   engine = "postgres"
-  engine_version = "12.3.0"
+  engine_version = "12.3"
   instance_class = "db.t2.micro"
   allocated_storage = 20
   name = random_pet.db_name.id
