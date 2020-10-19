@@ -25,6 +25,7 @@ provider "kubernetes-alpha" {
   host = module.kubernetes_cluster.kubernetes_config.host
   cluster_ca_certificate = module.kubernetes_cluster.kubernetes_config.cluster_ca_certificate
   token =  module.kubernetes_cluster.kubernetes_config.token
+  version = "~> 0.2"
 }
 
 terraform {
