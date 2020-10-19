@@ -72,3 +72,24 @@ module "kubernetes_ingress" {
 module "kubernetes_cert_manager" {
   source = "../../modules/kubernetes_cert_manager"
 }
+
+module "hive_staging_rds" {
+  source = "../../modules/rds_db"
+  database_id = "hive-staging-postgres"
+  accessing_security_group_id = module.kubernetes_cluster.worker_security_group_id
+  vpc_id = module.kubernetes_vpc.vpc_id
+  subnet_ids = module.kubernetes_vpc.subnets
+}
+
+resource "kubernetes_secret" "hive_staging_rds_postgres" {
+  metadata {
+    name = "hive-staging-rds-postgres"
+  }
+  data = {
+    postgresql-database = module.hive_staging_rds.database
+    postgresql-username = module.hive_staging_rds.username
+    postgresql-password = module.hive_staging_rds.password
+    postgresql-host = module.hive_staging_rds.hostname
+    postgresql-port = module.hive_staging_rds.port
+  }
+}
