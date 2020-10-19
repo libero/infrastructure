@@ -61,3 +61,7 @@ module "kubernetes_logs" {
 module "kubernetes_ingress" {
   source = "../../modules/kubernetes_ingress"
 }
+
+module "kubernetes_cert_manager" {
+  source = "../../modules/kubernetes_cert_manager"
+}
