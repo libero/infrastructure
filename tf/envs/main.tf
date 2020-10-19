@@ -21,6 +21,12 @@ provider "helm" {
   version = "~> 1.0"
 }
 
+provider "kubernetes-alpha" {
+  host = module.kubernetes_cluster.kubernetes_config.host
+  cluster_ca_certificate = module.kubernetes_cluster.kubernetes_config.cluster_ca_certificate
+  token =  module.kubernetes_cluster.kubernetes_config.token
+}
+
 terraform {
   backend "s3" {
     bucket = "libero-terraform"
