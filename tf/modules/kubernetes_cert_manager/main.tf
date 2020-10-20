@@ -31,13 +31,15 @@ resource "kubernetes_manifest" "cert_manager" {
         "privateKeySecretRef" = {
           "name" = "letsencrypt"
         }
-        "solvers" = {
-          "http01" = {
-            "ingress" = {
-              "class" = "nginx"
+        "solvers" = [
+          {
+            http01 = {
+              "ingress" = {
+                "class" = "nginx"
+              }
             }
           }
-        }
+        ]
       }
     }
   }
