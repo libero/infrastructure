@@ -10,7 +10,7 @@ resource "helm_release" "ingress_nginx" {
   version = "2.16.0"
 
   set {
-    name  = "replicaCount"
+    name  = "controller.replicaCount"
     value = 2
   }
 }
