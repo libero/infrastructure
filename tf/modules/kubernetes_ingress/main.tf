@@ -8,4 +8,9 @@ resource "helm_release" "ingress_nginx" {
   chart = "ingress-nginx"
   repository = data.helm_repository.ingress-nginx.metadata[0].name
   version = "2.16.0"
+
+  set {
+    name  = "replicaCount"
+    value = 2
+  }
 }
