@@ -93,3 +93,24 @@ resource "kubernetes_secret" "hive_staging_rds_postgres" {
     postgresql-port = module.hive_staging_rds.port
   }
 }
+
+module "hive_prod_rds" {
+  source = "../../modules/rds_db"
+  database_id = "hive-prod-postgres"
+  accessing_security_group_id = module.kubernetes_cluster.worker_security_group_id
+  vpc_id = module.kubernetes_vpc.vpc_id
+  subnet_ids = module.kubernetes_vpc.subnets
+}
+
+resource "kubernetes_secret" "hive_prod_rds_postgres" {
+  metadata {
+    name = "hive-prod-rds-postgres"
+  }
+  data = {
+    postgresql-database = module.hive_prod_rds.database
+    postgresql-username = module.hive_prod_rds.username
+    postgresql-password = module.hive_prod_rds.password
+    postgresql-host = module.hive_prod_rds.hostname
+    postgresql-port = module.hive_prod_rds.port
+  }
+}
