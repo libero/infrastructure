@@ -24,7 +24,9 @@ module "eks" {
     {
       name                          = "${var.cluster_name}--small"
       instance_type                 = "t2.small"
-      asg_desired_capacity          = 2
+      asg_desired_capacity          = 3
+      asg_min_size                  = 3
+      asg_max_size                  = 5
     },
   ]
   worker_additional_security_group_ids = [aws_security_group.node_port_services_public_access.id]
