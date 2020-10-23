@@ -9,9 +9,10 @@ resource "helm_release" "ingress_nginx" {
     value = 2
   }
 
-  set_string {
+  set {
     name  = "controller.config.use-gzip"
     value = "true"
+    type  = "string"
   }
 
   set {
