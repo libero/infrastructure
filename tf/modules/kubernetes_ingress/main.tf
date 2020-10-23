@@ -13,4 +13,10 @@ resource "helm_release" "ingress_nginx" {
     name  = "controller.config.use-gzip"
     value = "true"
   }
+
+  set {
+    name  = "controller.config.enable-brotli"
+    value = "true"
+    type  = "string"
+  }
 }
