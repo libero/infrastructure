@@ -69,10 +69,6 @@ module "kubernetes_ingress" {
   source = "../../modules/kubernetes_ingress"
 }
 
-module "kubernetes_cert_manager" {
-  source = "../../modules/kubernetes_cert_manager"
-}
-
 module "hive_staging_rds" {
   source = "../../modules/rds_db"
   database_id = "hive-staging-postgres"
