@@ -2,9 +2,9 @@ data "aws_route53_zone" "main" {
   name = var.domain_name
 }
 
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
+data "helm_repository" "bitnami" {
+  name = "bitnami"
+  url  = "https://charts.bitnami.com/bitnami"
 }
 
 resource "aws_iam_role_policy" "dns_update" {
@@ -41,7 +41,7 @@ POLICY
 resource "helm_release" "external_dns" {
   name = "external-dns"
   chart = "external-dns"
-  repository = data.helm_repository.stable.metadata[0].name
+  repository = data.helm_repository.bitnami.metadata[0].name
   version = "2.19.0"
   namespace = var.namespace
 
