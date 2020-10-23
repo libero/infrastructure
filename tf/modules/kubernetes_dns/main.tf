@@ -2,11 +2,6 @@ data "aws_route53_zone" "main" {
   name = var.domain_name
 }
 
-data "helm_repository" "bitnami" {
-  name = "bitnami"
-  url  = "https://charts.bitnami.com/bitnami"
-}
-
 resource "aws_iam_role_policy" "dns_update" {
   role = var.role_name
 
@@ -41,7 +36,7 @@ POLICY
 resource "helm_release" "external_dns" {
   name = "external-dns"
   chart = "external-dns"
-  repository = data.helm_repository.bitnami.metadata[0].name
+  repository = "https://charts.bitnami.com/bitnami"
   version = "2.19.0"
   namespace = var.namespace
 

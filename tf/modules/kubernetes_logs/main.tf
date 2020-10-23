@@ -1,9 +1,4 @@
-data "helm_repository" "incubator" {
-  name = "incubator"
-  url  = "https://kubernetes-charts-incubator.storage.googleapis.com"
-}
-
-# could actually be limited to only creating logs, 
+# could actually be limited to only creating logs,
 # but it's difficult to find a standard policy that covers
 # all the actions that the CloudWatch agent may use
 resource "aws_iam_role_policy" "logs_full_access" {
@@ -41,7 +36,7 @@ data "template_file" "amazon_cloudwatch_container_insights_raw_helm_chart_values
 resource "helm_release" "amazon_cloudwatch_container_insights" {
   name = "amazon-cloudwatch-container-insights"
   chart = "raw"
-  repository = data.helm_repository.incubator.metadata[0].name
+  repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
   version = "0.2.3"
   values = [data.template_file.amazon_cloudwatch_container_insights_raw_helm_chart_values.rendered]
   #    "values": {}[
