@@ -8,4 +8,9 @@ resource "helm_release" "ingress_nginx" {
     name  = "controller.replicaCount"
     value = 2
   }
+
+  set {
+    name  = "controller.config.use-gzip"
+    value = true
+  }
 }
