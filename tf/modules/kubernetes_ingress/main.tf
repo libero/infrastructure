@@ -11,6 +11,6 @@ resource "helm_release" "ingress_nginx" {
 
   set {
     name  = "controller.config.use-gzip"
-    value = true
+    value = "true"
   }
 }
