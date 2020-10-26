@@ -1,3 +1,4 @@
+*.log
 /helm
 /tf/.terraform
 /tf/terraform
