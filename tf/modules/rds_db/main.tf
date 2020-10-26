@@ -73,4 +73,5 @@ resource "aws_db_instance" "db_instance" {
   db_subnet_group_name = aws_db_subnet_group.db_instance.name
   vpc_security_group_ids = [aws_security_group.db_instance.id]
   skip_final_snapshot = true
+  backup_retention_period = 7
 }
