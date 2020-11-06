@@ -55,7 +55,7 @@ module "kubernetes_cluster" {
 module "kubernetes_dns" {
   source = "../../modules/kubernetes_dns"
   role_name = module.kubernetes_cluster.worker_iam_role_name
-  domain_name = "hive.review"
+  domain_name = "sciety.org"
   owner_id = "libero-eks--${var.env}"
 }
 

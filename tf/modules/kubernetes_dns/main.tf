@@ -2,6 +2,10 @@ data "aws_route53_zone" "main" {
   name = var.domain_name
 }
 
+data "aws_route53_zone" "old" {
+  name = "hive.review"
+}
+
 resource "aws_iam_role_policy" "dns_update" {
   role = var.role_name
 
@@ -15,7 +19,8 @@ resource "aws_iam_role_policy" "dns_update" {
         "route53:ChangeResourceRecordSets"
       ],
       "Resource": [
-        "arn:aws:route53:::hostedzone/${data.aws_route53_zone.main.zone_id}"
+        "arn:aws:route53:::hostedzone/${data.aws_route53_zone.main.zone_id}",
+        "arn:aws:route53:::hostedzone/${data.aws_route53_zone.old.zone_id}"
       ]
     },
     {
@@ -68,6 +73,11 @@ resource "helm_release" "external_dns" {
   set {
     name  = "zoneIdFilters[0]"
     value = data.aws_route53_zone.main.zone_id
+  }
+
+  set {
+    name  = "zoneIdFilters[1]"
+    value = data.aws_route53_zone.old.zone_id
   }
 
   set {
