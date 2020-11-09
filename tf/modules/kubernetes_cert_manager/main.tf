@@ -21,7 +21,7 @@ resource "kubernetes_manifest" "cert_manager" {
     }
     "spec" = {
       "acme" = {
-        "email" = "team@hive.review"
+        "email" = "team@sciety.org"
         "server" = "https://acme-v02.api.letsencrypt.org/directory"
         "privateKeySecretRef" = {
           "name" = "letsencrypt"

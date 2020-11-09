@@ -1,16 +1,9 @@
 # infrastructure
-Infrastructure as Code for Libero testing and demos
+Infrastructure as Code for Sciety
 
 ## Environments
 
-- `franklin`: Kubernetes cluster for Publisher's demonstration purposes. No automated deployments set up.
-
-### Legacy environments
-
-Do not add new resources to these environments, and move out existing resources if they need rework.
-
-- `unstable`: every `master` build of this repository applies changes.
-- `demo`: pushing a new `latest/*` tag (e.g. `latest/20190628`) applies changes.
+- `franklin`: Kubernetes cluster for Sciety.
 
 ## Scope
 
