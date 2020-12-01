@@ -7,6 +7,11 @@ variable "env" {
   description = "Environment: unstable, demo, ..."
 }
 
+variable "domain" {
+  default = "sciety.org"
+  description = "The domain."
+}
+
 variable "map_users" {
   default = [
     {

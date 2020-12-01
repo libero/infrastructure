@@ -55,7 +55,7 @@ module "kubernetes_cluster" {
 module "kubernetes_dns" {
   source = "../../modules/kubernetes_dns"
   role_name = module.kubernetes_cluster.worker_iam_role_name
-  domain_name = "sciety.org"
+  domain_name = var.domain
   owner_id = "libero-eks--${var.env}"
 }
 
@@ -117,7 +117,7 @@ resource "kubernetes_secret" "hive_prod_rds_postgres" {
 
 resource "aws_route53_record" "main_txt" {
   zone_id = "Z03910412R57PBC6T51J6"
-  name    = "sciety.org"
+  name    = var.domain
   type    = "TXT"
   ttl     = 300
   records = ["google-site-verification=CkWhogOskZm7nRTmjdHiD8q2NbfXOns-vp5qeHEK_5w"]
