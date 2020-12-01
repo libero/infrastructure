@@ -124,5 +124,5 @@ resource "aws_route53_record" "main_txt" {
   name    = var.domain
   type    = "TXT"
   ttl     = 300
-  records = ["google-site-verification=CkWhogOskZm7nRTmjdHiD8q2NbfXOns-vp5qeHEK_5w"]
+  records = [var.google_site_verification_record]
 }
