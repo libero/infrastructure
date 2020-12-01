@@ -115,8 +115,12 @@ resource "kubernetes_secret" "hive_prod_rds_postgres" {
   }
 }
 
+data "aws_route53_zone" "main" {
+  name = var.domain
+}
+
 resource "aws_route53_record" "main_txt" {
-  zone_id = "Z03910412R57PBC6T51J6"
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = var.domain
   type    = "TXT"
   ttl     = 300
