@@ -114,3 +114,11 @@ resource "kubernetes_secret" "hive_prod_rds_postgres" {
     postgresql-port = module.hive_prod_rds.port
   }
 }
+
+resource "aws_route53_record" "main_txt" {
+  zone_id = "Z03910412R57PBC6T51J6"
+  name    = "sciety.org"
+  type    = "TXT"
+  ttl     = 300
+  records = ["google-site-verification=CkWhogOskZm7nRTmjdHiD8q2NbfXOns-vp5qeHEK_5w"]
+}
