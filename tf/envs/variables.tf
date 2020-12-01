@@ -40,16 +40,6 @@ variable "map_users" {
       groups   = ["system:masters"]
     },
     {
-      userarn  = "arn:aws:iam::540790251273:user/ChrisWilkinson"
-      username = "PeterHooper"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::540790251273:user/TravisCI"
-      username = "TravisCI"
-      groups   = ["system:masters"]
-    },
-    {
       userarn  = "arn:aws:iam::540790251273:user/GithubActions"
       username = "GithubActions"
       groups   = ["system:masters"]
