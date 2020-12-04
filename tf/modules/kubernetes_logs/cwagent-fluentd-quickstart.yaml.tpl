@@ -317,6 +317,13 @@ resources:
           </filter>
 
           <filter **>
+            @type parser
+            <parse>
+              @type nginx
+            </parse>
+          </filter>
+
+          <filter **>
             @type record_transformer
             @id filter_containers_stream_transformer
             <record>
