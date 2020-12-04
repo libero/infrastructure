@@ -1,9 +1,9 @@
 controller:
   replicaCount: 2
   config:
-    use-gzip: true
-    enable-brotli: true
-    log-format-escape-json: true
+    use-gzip: "true"
+    enable-brotli: "true"
+    log-format-escape-json: "true"
     log-format-upstream: >
       {
           "time_local": "$time_local",
