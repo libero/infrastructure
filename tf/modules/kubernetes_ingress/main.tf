@@ -20,4 +20,10 @@ resource "helm_release" "ingress_nginx" {
     value = "true"
     type  = "string"
   }
+
+  set {
+    name  = "controller.config.log-format-escape-json"
+    value = "true"
+    type  = "string"
+  }
 }
