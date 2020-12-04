@@ -316,8 +316,9 @@ resources:
             @id filter_kube_metadata
           </filter>
 
-          <filter **>
+          <filter kubernetes.var.log.containers.controller**.log>
             @type parser
+            key_name log
             <parse>
               @type nginx
             </parse>
