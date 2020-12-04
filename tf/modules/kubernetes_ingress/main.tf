@@ -29,7 +29,7 @@ resource "helm_release" "ingress_nginx" {
 
   set {
     name  = "controller.config.log-format-upstream"
-    value = jsonencode(jsondecode(file("${path.module}/nginx-log-format-upstream.json")))
+    value = "${jsonencode(jsondecode(file("${path.module}/nginx-log-format-upstream.json")))}"
     type  = "string"
   }
 }
