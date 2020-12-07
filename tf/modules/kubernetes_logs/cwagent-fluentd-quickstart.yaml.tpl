@@ -327,7 +327,7 @@ resources:
           <filter **>
             @type record_transformer
             <record>
-              app_request ${record["app_request"]} wip--issue-344
+              app_request $${record["app_request"]} wip--issue-344
             </record>
           </filter>
 
