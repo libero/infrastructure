@@ -1,6 +1,7 @@
 controller:
   replicaCount: 2
   config:
+    use-proxy-protocol: "true"
     use-gzip: "true"
     enable-brotli: "true"
     log-format-escape-json: "true"
