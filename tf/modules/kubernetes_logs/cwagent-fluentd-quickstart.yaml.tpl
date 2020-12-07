@@ -1,5 +1,5 @@
-# adapted from https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/quickstart/cwagent-fluentd-quickstart.yaml 
-# plus: sed "s/{{cluster_name}}/Cluster_Name/;s/{{region_name}}/Region/" 
+# adapted from https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/quickstart/cwagent-fluentd-quickstart.yaml
+# plus: sed "s/{{cluster_name}}/Cluster_Name/;s/{{region_name}}/Region/"
 # plus: escape as $${tag} and similar to avoid Terraform trying to interpolate them
 #
 # create amazon-cloudwatch namespace
@@ -10,7 +10,7 @@ resources:
       name: amazon-cloudwatch
       labels:
         name: amazon-cloudwatch
-    
+
 
     # create cwagent service account and role binding
   - apiVersion: v1
@@ -19,7 +19,7 @@ resources:
       name: cloudwatch-agent
       namespace: amazon-cloudwatch
 
-    
+
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -45,7 +45,7 @@ resources:
         resourceNames: ["cwagent-clusterleader"]
         verbs: ["get","update"]
 
-    
+
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -58,7 +58,7 @@ resources:
       kind: ClusterRole
       name: cloudwatch-agent-role
       apiGroup: rbac.authorization.k8s.io
-    
+
 
     # create configmap for cwagent config
   - apiVersion: v1
@@ -85,7 +85,7 @@ resources:
       name: cwagentconfig
       namespace: amazon-cloudwatch
 
-    
+
 
     # deploy cwagent as daemonset
   - apiVersion: apps/v1
@@ -173,7 +173,7 @@ resources:
           terminationGracePeriodSeconds: 60
           serviceAccountName: cloudwatch-agent
 
-    
+
 
     # create configmap for cluster name and aws region for CloudWatch Logs
     # need to replace the placeholders {{cluster_name}} and {{region_name}}
@@ -185,14 +185,14 @@ resources:
     metadata:
       name: cluster-info
       namespace: amazon-cloudwatch
-    
+
 
   - apiVersion: v1
     kind: ServiceAccount
     metadata:
       name: fluentd
       namespace: amazon-cloudwatch
-    
+
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -204,7 +204,7 @@ resources:
           - pods
           - pods/logs
         verbs: ["get", "list", "watch"]
-    
+
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
@@ -217,7 +217,7 @@ resources:
       - kind: ServiceAccount
         name: fluentd
         namespace: amazon-cloudwatch
-    
+
   - apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -310,7 +310,7 @@ resources:
             reserve_time true
             emit_invalid_record_to_error false
           </filter>
-          
+
           <filter **>
             @type kubernetes_metadata
             @id filter_kube_metadata
@@ -326,8 +326,9 @@ resources:
 
           <filter **>
             @type record_transformer
+            enable_ruby
             <record>
-              app_request $${record["app_request"]} wip--issue-344
+              app_request $${record["app_request"].gsub(/\/users\/(\S+)/, '/users/--redacted--'}
             </record>
           </filter>
 
@@ -550,7 +551,7 @@ resources:
             </buffer>
           </match>
         </label>
-    
+
   - apiVersion: apps/v1
     kind: DaemonSet
     metadata:
