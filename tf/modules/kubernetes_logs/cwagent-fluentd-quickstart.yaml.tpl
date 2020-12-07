@@ -324,7 +324,7 @@ resources:
             </record>
           </filter>
 
-          <filter **>
+          <filter var.log.containers.ingress-nginx-controller-**>
             @type record_transformer
             enable_ruby
             <record>
