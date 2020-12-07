@@ -332,6 +332,11 @@ resources:
             </record>
           </filter>
 
+          <filter var.log.containers.ingress-nginx-controller-**>
+            @type record_transformer
+            remove_keys log
+          </filter>
+
           <filter **>
             @type concat
             key log
