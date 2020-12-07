@@ -328,7 +328,7 @@ resources:
             @type record_transformer
             enable_ruby
             <record>
-              app_request $${record["app_request"].gsub(/\/users\/(\S+)/, '/users/--redacted--'}
+              app_request $${record["app_request"].gsub(/\/users\/(\S+)/, '/users/--redacted--')}
             </record>
           </filter>
 
