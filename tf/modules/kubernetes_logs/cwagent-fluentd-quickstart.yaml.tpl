@@ -325,6 +325,13 @@ resources:
           </filter>
 
           <filter **>
+            @type record_transformer
+            <record>
+              app_request ${record["app_request"]} wip--issue-344
+            </record>
+          </filter>
+
+          <filter **>
             @type concat
             key log
             multiline_start_regexp /^[^\s}]/
