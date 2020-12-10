@@ -309,7 +309,6 @@ resources:
             reserve_data true
             reserve_time true
             emit_invalid_record_to_error false
-            remove_key_name_field true
           </filter>
 
           <filter **>
@@ -335,6 +334,7 @@ resources:
 
           <filter var.log.containers.ingress-nginx-controller-**>
             @type record_transformer
+            remove_keys log
           </filter>
 
           <filter **>
