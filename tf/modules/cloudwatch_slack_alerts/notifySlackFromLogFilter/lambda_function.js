@@ -2,7 +2,7 @@ var zlib = require('zlib');
 var https = require("https");
 const posttoslack = function (msg) {
   const hostname = "hooks.slack.com";
-  const path = "";
+  const path = process.env.SLACK_WEBHOOK_PATH;
   return new Promise((resolve, reject) => {
     var options = {
       "method": "POST",
@@ -60,9 +60,8 @@ exports.lambda_handler = async function (input, context) {
   }
 
   console.log("pre-posttoslack");
-  return posttoslack(slack_message).then(context.succeed)
-                                   .then(() => console.log('after context.succeed')).catch((e) => {
-      console.log("caught ", e);
-      context.fail(e)
-    });
+  return posttoslack(slack_message).then(context.succeed).then(() => console.log('after context.succeed')).catch((e) => {
+    console.log("caught ", e);
+    context.fail(e)
+  });
 };
