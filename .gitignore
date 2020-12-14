@@ -7,3 +7,4 @@
 /tf/envs/*/*.plan
 /tf/envs/*/config-map-aws-auth_*.yaml
 /tf/envs/*/kubeconfig_*
+*.zip

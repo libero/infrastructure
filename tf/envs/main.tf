@@ -126,3 +126,7 @@ resource "aws_route53_record" "main_txt" {
   ttl     = 300
   records = [var.google_site_verification_record]
 }
+
+module "cloudwatch_slack_alerts" {
+  source = "../../modules/cloudwatch_slack_alerts"
+}
