@@ -60,7 +60,7 @@ resource "aws_lambda_function" "notify" {
   filename      = data.archive_file.lambda_src.output_path
   function_name = "notifySlackFromLogFilter"
   role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "exports.lambda_handler"
+  handler       = "lambda_function.lambda_handler"
 
   source_code_hash = data.archive_file.lambda_src.output_base64sha256
 
