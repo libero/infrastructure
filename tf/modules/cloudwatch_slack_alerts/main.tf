@@ -68,7 +68,7 @@ resource "aws_lambda_function" "notify" {
 
   environment {
     variables = {
-      SLACK_WEBHOOK_PATH = "bar"
+      SLACK_WEBHOOK_PATH = var.slack_webhook_path
     }
   }
 }

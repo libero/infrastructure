@@ -129,4 +129,5 @@ resource "aws_route53_record" "main_txt" {
 
 module "cloudwatch_slack_alerts" {
   source = "../../modules/cloudwatch_slack_alerts"
+  slack_webhook_path = var.slack_webhook_path
 }

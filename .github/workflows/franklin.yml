@@ -25,7 +25,8 @@ jobs:
         run: |
           cd tf/envs/franklin
           $TERRAFORM init --backend-config="key=franklin/terraform.tfstate" -input=false
-          $TERRAFORM plan -out /tmp/franklin.plan
+          $TERRAFORM plan -out /tmp/franklin.plan \
+            -var "slack_webhook_path=${{ secrets.SLACK_WEBHOOK_PATH }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
