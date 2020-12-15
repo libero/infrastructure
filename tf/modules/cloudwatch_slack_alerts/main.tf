@@ -73,3 +73,9 @@ resource "aws_lambda_function" "notify" {
   }
 }
 
+resource "aws_cloudwatch_log_subscription_filter" "notify_slack_lambda_on_errors" {
+  name            = "error_on_sciety_prod"
+  log_group_name  = "/aws/containerinsights/libero-eks--franklin/application"
+  filter_pattern  = "{ ($.app_level = \"error\") && ($.kubernetes.pod_name = \"sciety--prod*\") }"
+  destination_arn = aws_lambda_function.notify.arn
+}
