@@ -140,3 +140,13 @@ module "cloudwatch_slack_alerts" {
 resource "google_service_account_key" "ncrc_sheet" {
   service_account_id = "ncrc-sheet@sciety.iam.gserviceaccount.com"
 }
+
+resource "kubernetes_secret" "ncrc_sheet_key" {
+  metadata {
+    name = "ncrc-sheet-key"
+  }
+  
+  data = {
+    "private_key" = google_service_account_key.ncrc_sheet.private_key
+  }
+}
