@@ -136,3 +136,7 @@ module "cloudwatch_slack_alerts" {
   source = "../../modules/cloudwatch_slack_alerts"
   slack_webhook_path = var.slack_webhook_path
 }
+
+resource "google_service_account_key" "ncrc_sheet" {
+  service_account_id = "ncrc-sheet@sciety.iam.gserviceaccount.com"
+}
