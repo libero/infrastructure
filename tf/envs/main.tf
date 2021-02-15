@@ -28,6 +28,11 @@ provider "kubernetes-alpha" {
   version = "~> 0.2"
 }
 
+provider "google" {
+  project = "sciety"
+  version = "3.56.0"
+}
+
 terraform {
   backend "s3" {
     bucket = "libero-terraform"
