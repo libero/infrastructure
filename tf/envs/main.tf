@@ -145,8 +145,8 @@ resource "kubernetes_secret" "ncrc_sheet_key" {
   metadata {
     name = "ncrc-sheet-key"
   }
-  
+
   data = {
-    "private_key" = google_service_account_key.ncrc_sheet.private_key
+    ".gcp-ncrc-key.json" = base64decode(google_service_account_key.ncrc_sheet.private_key)
   }
 }
